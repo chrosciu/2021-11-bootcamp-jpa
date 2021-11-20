@@ -4,12 +4,16 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @ToString
@@ -25,6 +29,11 @@ public class Product {
     private String description;
     @Transient
     private String shortDescription;
+
+    @ElementCollection
+    @CollectionTable(name = "CATEGORIES")
+    @Column(name = "CATEGORY")
+    private Set<String> categories = new HashSet<>();
 
     public Product(String name, String description) {
         this.name = name;
@@ -44,6 +53,10 @@ public class Product {
     public void changeDescriptionTo(String description) {
         this.description = description;
         updateShortDescription();
+    }
+
+    public void addCategory(String category) {
+        categories.add(category);
     }
 
     UUID getId() {
