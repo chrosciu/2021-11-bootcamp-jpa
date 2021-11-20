@@ -1,5 +1,6 @@
 package com.smalaca.jpa;
 
+import com.smalaca.jpa.domain.Comment;
 import com.smalaca.jpa.domain.Description;
 import com.smalaca.jpa.domain.Item;
 import com.smalaca.jpa.domain.ItemRepository;
@@ -28,8 +29,9 @@ public class JpaHelloWorld {
         toDoRepository.save(withDescription);
 
         ToDo withComments = new ToDo("write some comment");
-        withComments.addComment("comment one");
-        withComments.addComment("comment two");
+        withComments.addComment(new Comment("smalaca", "comment one"));
+        withComments.addComment(new Comment("smalaca", "comment two"));
+        withComments.addComment(new Comment("peter parker", "comment three"));
         toDoRepository.save(withComments);
 
         ItemRepository itemRepository = new ItemRepository(context1);

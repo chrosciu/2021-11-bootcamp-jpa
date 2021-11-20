@@ -2,6 +2,8 @@ package com.smalaca.jpa.domain;
 
 import lombok.ToString;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -42,8 +44,12 @@ public class ToDo {
     @CollectionTable(name = "comments", joinColumns = {
             @JoinColumn(name = "todo_id")
     })
-    @Column(name = "value")
-    private Set<String> comments = new HashSet<>();
+    @Embedded
+    @AttributeOverrides(value = {
+            @AttributeOverride(name = "author", column = @Column(name = "auth")),
+            @AttributeOverride(name = "comment", column = @Column(name = "cmnt"))
+    })
+    private Set<Comment> comments = new HashSet<>();
 
     @Transient
     private String firstLetterOfSubject;
@@ -76,7 +82,7 @@ public class ToDo {
         this.description = description;
     }
 
-    public void addComment(String comment) {
+    public void addComment(Comment comment) {
         comments.add(comment);
     }
 }
