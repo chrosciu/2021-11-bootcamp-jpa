@@ -27,17 +27,14 @@ public class JpaHelloWorld {
         EntityManager context2 = entityManagerFactory.createEntityManager();
         productRepository = new ProductRepository(context2);
 
-        Product found = productRepository.findById(toRemoveId);
-        context2.getTransaction().begin();
-        context2.remove(found);
-        context2.getTransaction().commit();
+        productRepository.removeById(toRemoveId);
 
         nextContext();
 
         EntityManager lastContext = entityManagerFactory.createEntityManager();
         productRepository = new ProductRepository(lastContext);
 
-        List<Product> products = lastContext.createQuery("SELECT p FROM Product p").getResultList();
+        List<Product> products = productRepository.findAll();
         products.forEach(System.out::println);
 
         lastContext.close();
