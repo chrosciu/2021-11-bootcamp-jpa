@@ -1,12 +1,13 @@
 package com.smalaca.jpa;
 
+import com.smalaca.jpa.domain.Invoice;
+import com.smalaca.jpa.domain.InvoiceRepository;
 import com.smalaca.jpa.domain.Product;
 import com.smalaca.jpa.domain.ProductRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
 import java.util.UUID;
 
 public class JpaHelloWorld {
@@ -19,6 +20,11 @@ public class JpaHelloWorld {
         productRepository.save(new Product("Water", "The best thing to drink. On the morning, during the day and for a sleep."));
         UUID toRemoveId = productRepository.save(new Product("Bread", "Something to start with"));
         UUID toModifyId = productRepository.save(new Product("Carrot", "Because they said you will see better"));
+
+        InvoiceRepository invoiceRepository = new InvoiceRepository(context1);
+        invoiceRepository.save(Invoice.created());
+        invoiceRepository.save(Invoice.created());
+        invoiceRepository.save(Invoice.created());
 
         context1.close();
 
@@ -38,11 +44,16 @@ public class JpaHelloWorld {
 
         nextContext();
 
-        EntityManager lastContext = entityManagerFactory.createEntityManager();
-        productRepository = new ProductRepository(lastContext);
+        displayAll(entityManagerFactory);
+    }
 
-        List<Product> products = productRepository.findAll();
-        products.forEach(System.out::println);
+    private static void displayAll(EntityManagerFactory entityManagerFactory) {
+        EntityManager lastContext = entityManagerFactory.createEntityManager();
+        ProductRepository productRepository = new ProductRepository(lastContext);
+        InvoiceRepository invoiceRepository = new InvoiceRepository(lastContext);
+
+        productRepository.findAll().forEach(System.out::println);
+        invoiceRepository.findAll().forEach(System.out::println);
 
         lastContext.close();
     }
