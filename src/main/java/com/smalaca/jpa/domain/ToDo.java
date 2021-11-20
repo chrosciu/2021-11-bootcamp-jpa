@@ -3,6 +3,7 @@ package com.smalaca.jpa.domain;
 import lombok.ToString;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,8 +26,8 @@ public class ToDo {
     @Column(name = "TODO_SUBJECT", unique = true, nullable = false)
     private String subject;
 
-    @Column(name = "TODO_DETAILS", columnDefinition = "CLOB")
-    private String details;
+    @Embedded
+    private Description description;
 
     @Enumerated(EnumType.ORDINAL)
     private ToDoStatus status;
@@ -58,4 +59,7 @@ public class ToDo {
         return id;
     }
 
+    public void add(Description description) {
+        this.description = description;
+    }
 }

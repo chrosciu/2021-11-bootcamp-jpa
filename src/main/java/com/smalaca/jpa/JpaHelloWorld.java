@@ -1,5 +1,6 @@
 package com.smalaca.jpa;
 
+import com.smalaca.jpa.domain.Description;
 import com.smalaca.jpa.domain.ToDo;
 import com.smalaca.jpa.domain.ToDoRepository;
 
@@ -19,6 +20,10 @@ public class JpaHelloWorld {
         UUID toRemoveId = toDoRepository.save(new ToDo("eat lunch"));
         toDoRepository.save(new ToDo("conduct a training"));
         UUID toModifyId = toDoRepository.save(new ToDo("go to sleep"));
+
+        ToDo withDescription = new ToDo("eat dinner");
+        withDescription.add(new Description("something good", "recipe for a diner"));
+        toDoRepository.save(withDescription);
 
         context1.close();
 
