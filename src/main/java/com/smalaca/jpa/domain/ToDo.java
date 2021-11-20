@@ -4,6 +4,8 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PostLoad;
@@ -25,6 +27,9 @@ public class ToDo {
 
     @Column(name = "TODO_DETAILS", columnDefinition = "CLOB")
     private String details;
+
+    @Enumerated(EnumType.ORDINAL)
+    private ToDoStatus status;
 
     @Transient
     private String firstLetterOfSubject;
