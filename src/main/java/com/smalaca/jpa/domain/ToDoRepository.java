@@ -11,10 +11,12 @@ public class ToDoRepository {
         this.entityManager = entityManager;
     }
 
-    public void save(ToDo toDo) {
+    public UUID save(ToDo toDo) {
         entityManager.getTransaction().begin();
         entityManager.persist(toDo);
         entityManager.getTransaction().commit();
+
+        return toDo.getId();
     }
 
     public ToDo findById(UUID id) {

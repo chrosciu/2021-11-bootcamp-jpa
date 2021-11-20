@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.UUID;
 
@@ -14,17 +15,21 @@ import java.util.UUID;
 @Entity(name = "ToDo")
 public class ToDo {
     @Id
+    @GeneratedValue
     private UUID id;
 
     @Column
     private String subject;
 
-    public ToDo(UUID id, String subject) {
-        this.id = id;
+    public ToDo(String subject) {
         this.subject = subject;
     }
 
     public void changeSubjectTo(String subject) {
         this.subject = subject;
+    }
+
+    UUID getId() {
+        return id;
     }
 }

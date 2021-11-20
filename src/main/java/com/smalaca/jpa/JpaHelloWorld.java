@@ -14,11 +14,9 @@ public class JpaHelloWorld {
         EntityManager context1 = entityManagerFactory.createEntityManager();
         ToDoRepository toDoRepository = new ToDoRepository(context1);
 
-        UUID toRemoveId = UUID.randomUUID();
-        UUID toModifyId = UUID.randomUUID();
-        toDoRepository.save(new ToDo(toRemoveId, "eat lunch"));
-        toDoRepository.save(new ToDo(UUID.randomUUID(), "conduct a training"));
-        toDoRepository.save(new ToDo(toModifyId, "go to sleep"));
+        UUID toRemoveId = toDoRepository.save(new ToDo("eat lunch"));
+        toDoRepository.save(new ToDo("conduct a training"));
+        UUID toModifyId = toDoRepository.save(new ToDo("go to sleep"));
 
         context1.close();
 
