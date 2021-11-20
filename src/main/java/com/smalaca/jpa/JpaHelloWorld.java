@@ -30,6 +30,7 @@ public class JpaHelloWorld {
         ItemRepository itemRepository = new ItemRepository(context1);
         itemRepository.save(new Item(new Description("something good", "recipe for a diner")));
         itemRepository.save(new Item(new Description("something not so good", "I don't know can be not so good")));
+        itemRepository.save(new Item(new Description("too short")));
 
         context1.close();
 

@@ -14,7 +14,11 @@ public class Description {
     private String fullDescription;
 
     public Description(String shortDescription, String fullDescription) {
-        this.shortDescription = shortDescription;
+        this(shortDescription);
         this.fullDescription = fullDescription;
+    }
+
+    public Description(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 }
