@@ -15,9 +15,10 @@ public class JpaHelloWorld {
         ToDoRepository toDoRepository = new ToDoRepository(context1);
 
         UUID toRemoveId = UUID.randomUUID();
+        UUID toModifyId = UUID.randomUUID();
         toDoRepository.save(new ToDo(toRemoveId, "eat lunch"));
         toDoRepository.save(new ToDo(UUID.randomUUID(), "conduct a training"));
-        toDoRepository.save(new ToDo(UUID.randomUUID(), "go to sleep"));
+        toDoRepository.save(new ToDo(toModifyId, "go to sleep"));
 
         context1.close();
 
@@ -28,6 +29,18 @@ public class JpaHelloWorld {
         toDoRepository.removeById(toRemoveId);
 
         context2.close();
+        nextContext();
+
+        EntityManager context3 = entityManagerFactory.createEntityManager();
+        toDoRepository = new ToDoRepository(context3);
+
+        ToDo toModify = toDoRepository.findById(toModifyId);
+        toModify.changeSubjectTo("go to sleep but not too early");
+        context3.getTransaction().begin();
+        context3.merge(toModify);
+        context3.getTransaction().commit();
+
+        context3.close();
         nextContext();
 
         EntityManager lastContext = entityManagerFactory.createEntityManager();

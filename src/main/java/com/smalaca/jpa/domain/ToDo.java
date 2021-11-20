@@ -23,4 +23,8 @@ public class ToDo {
         this.id = id;
         this.subject = subject;
     }
+
+    public void changeSubjectTo(String subject) {
+        this.subject = subject;
+    }
 }
