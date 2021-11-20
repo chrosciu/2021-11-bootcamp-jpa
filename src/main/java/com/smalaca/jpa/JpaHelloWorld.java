@@ -1,6 +1,8 @@
 package com.smalaca.jpa;
 
 import com.smalaca.jpa.domain.Description;
+import com.smalaca.jpa.domain.Item;
+import com.smalaca.jpa.domain.ItemRepository;
 import com.smalaca.jpa.domain.ToDo;
 import com.smalaca.jpa.domain.ToDoRepository;
 
@@ -24,6 +26,10 @@ public class JpaHelloWorld {
         ToDo withDescription = new ToDo("eat dinner");
         withDescription.add(new Description("something good", "recipe for a diner"));
         toDoRepository.save(withDescription);
+
+        ItemRepository itemRepository = new ItemRepository(context1);
+        itemRepository.save(new Item(new Description("something good", "recipe for a diner")));
+        itemRepository.save(new Item(new Description("something not so good", "I don't know can be not so good")));
 
         context1.close();
 
@@ -51,11 +57,14 @@ public class JpaHelloWorld {
         nextContext();
 
         // SHOW ALL
-        EntityManager lastContext = entityManagerFactory.createEntityManager();
-        toDoRepository = new ToDoRepository(lastContext);
+        displayAll(entityManagerFactory);
+    }
 
-        toDoRepository.findAll()
-                .forEach(System.out::println);
+    private static void displayAll(EntityManagerFactory entityManagerFactory) {
+        EntityManager lastContext = entityManagerFactory.createEntityManager();
+
+        new ToDoRepository(lastContext).findAll().forEach(System.out::println);
+        new ItemRepository(lastContext).findAll().forEach(System.out::println);
 
         lastContext.close();
     }
