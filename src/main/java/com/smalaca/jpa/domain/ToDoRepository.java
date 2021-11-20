@@ -25,4 +25,12 @@ public class ToDoRepository {
         return entityManager.createQuery(
                 "SELECT todo FROM ToDo todo ORDER BY subject ASC").getResultList();
     }
+
+    public void removeById(UUID id) {
+        ToDo toRemove = findById(id);
+
+        entityManager.getTransaction().begin();
+        entityManager.remove(toRemove);
+        entityManager.getTransaction().commit();
+    }
 }

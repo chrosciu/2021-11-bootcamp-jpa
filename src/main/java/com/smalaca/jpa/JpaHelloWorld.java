@@ -23,11 +23,9 @@ public class JpaHelloWorld {
 
         nextContext();
         EntityManager context2 = entityManagerFactory.createEntityManager();
+        toDoRepository = new ToDoRepository(context2);
 
-        ToDo toRemove = context2.find(ToDo.class, toRemoveId);
-        context2.getTransaction().begin();
-        context2.remove(toRemove);
-        context2.getTransaction().commit();
+        toDoRepository.removeById(toRemoveId);
 
         context2.close();
         nextContext();
