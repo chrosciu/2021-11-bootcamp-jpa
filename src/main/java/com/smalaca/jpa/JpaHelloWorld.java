@@ -1,6 +1,7 @@
 package com.smalaca.jpa;
 
 import com.smalaca.jpa.domain.Product;
+import com.smalaca.jpa.domain.ProductRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,13 +14,13 @@ public class JpaHelloWorld {
         EntityManager entityManager1 = entityManagerFactory.createEntityManager();
 
         UUID id = UUID.randomUUID();
-        Product product = new Product(id, "Water", "The best thing to drink");
-        entityManager1.getTransaction().begin();
-        entityManager1.persist(product);
-        entityManager1.getTransaction().commit();
+        ProductRepository productRepository = new ProductRepository(entityManager1);
 
-        Product found = entityManager1.find(Product.class, id);
+        productRepository.save(new Product(id, "Water", "The best thing to drink"));
+
+        Product found = productRepository.findById(id);
         System.out.println(found);
+
         entityManager1.close();
 
         System.out.println("-----------------------------");
@@ -27,8 +28,9 @@ public class JpaHelloWorld {
         System.out.println("-----------------------------");
 
         EntityManager entityManager2 = entityManagerFactory.createEntityManager();
+        productRepository = new ProductRepository(entityManager2);
 
-        System.out.println(entityManager2.find(Product.class, id));
+        System.out.println(productRepository.findById(id));
 
         entityManager2.close();
     }
