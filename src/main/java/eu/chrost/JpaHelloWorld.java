@@ -8,12 +8,23 @@ import java.util.UUID;
 public class JpaHelloWorld {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ToDo");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager1 = entityManagerFactory.createEntityManager();
 
-        entityManager.getTransaction().begin();
-        entityManager.persist(new Product(UUID.randomUUID(), "Water", "The best thing to drink"));
-        entityManager.getTransaction().commit();
+        UUID id = UUID.randomUUID();
+        ProductRepository productRepository = new ProductRepository(entityManager1);
 
-        entityManager.close();
+        productRepository.save(new Product(id, "Water", "The best thing to drink"));
+
+        Product found = productRepository.findById(id);
+        System.out.println(found);
+
+        entityManager1.close();
+
+        EntityManager entityManager2 = entityManagerFactory.createEntityManager();
+        productRepository = new ProductRepository(entityManager2);
+
+        System.out.println(productRepository.findById(id));
+
+        entityManager2.close();
     }
 }
