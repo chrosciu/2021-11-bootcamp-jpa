@@ -20,8 +20,11 @@ public class ToDo {
     @Column(name = "TODO_ID")
     private UUID id;
 
-    @Column(name = "TODO_SUBJECT")
+    @Column(name = "TODO_SUBJECT", unique = true, nullable = false)
     private String subject;
+
+    @Column(name = "TODO_DETAILS", columnDefinition = "CLOB")
+    private String details;
 
     @Transient
     private String firstLetterOfSubject;
