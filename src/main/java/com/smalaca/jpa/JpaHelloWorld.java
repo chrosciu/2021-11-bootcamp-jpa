@@ -11,6 +11,8 @@ import java.util.UUID;
 public class JpaHelloWorld {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ToDo");
+
+        // CREATE
         EntityManager context1 = entityManagerFactory.createEntityManager();
         ToDoRepository toDoRepository = new ToDoRepository(context1);
 
@@ -21,6 +23,8 @@ public class JpaHelloWorld {
         context1.close();
 
         nextContext();
+
+        // REMOVE
         EntityManager context2 = entityManagerFactory.createEntityManager();
         toDoRepository = new ToDoRepository(context2);
 
@@ -29,6 +33,7 @@ public class JpaHelloWorld {
         context2.close();
         nextContext();
 
+        // UPDATE
         EntityManager context3 = entityManagerFactory.createEntityManager();
         toDoRepository = new ToDoRepository(context3);
 
@@ -40,6 +45,7 @@ public class JpaHelloWorld {
         context3.close();
         nextContext();
 
+        // SHOW ALL
         EntityManager lastContext = entityManagerFactory.createEntityManager();
         toDoRepository = new ToDoRepository(lastContext);
 

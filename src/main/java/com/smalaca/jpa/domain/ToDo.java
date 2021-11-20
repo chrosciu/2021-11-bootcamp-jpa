@@ -1,7 +1,5 @@
 package com.smalaca.jpa.domain;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -13,7 +11,6 @@ import javax.persistence.Transient;
 import java.util.UUID;
 
 @ToString
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity(name = "ToDo")
 public class ToDo {
     @Id
@@ -30,6 +27,8 @@ public class ToDo {
         this.subject = subject;
         this.firstLetterOfSubject = calculateFirstLetterOfSubject();
     }
+
+    private ToDo() {}
 
     @PostLoad
     private void fillFirstLetterOfSubject() {
