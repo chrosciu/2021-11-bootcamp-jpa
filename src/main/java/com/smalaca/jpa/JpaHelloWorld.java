@@ -7,6 +7,7 @@ import com.smalaca.jpa.domain.Invoice;
 import com.smalaca.jpa.domain.InvoiceRepository;
 import com.smalaca.jpa.domain.Product;
 import com.smalaca.jpa.domain.ProductRepository;
+import com.smalaca.jpa.domain.Rating;
 import com.smalaca.jpa.domain.Seller;
 import com.smalaca.jpa.domain.SellerRepository;
 
@@ -30,6 +31,12 @@ public class JpaHelloWorld {
         productWithCategories.addCategory("boxes");
         productWithCategories.addCategory("stuff");
         productRepository.save(productWithCategories);
+
+        Product productWithRatings = new Product("Paper", "You can write on it");
+        productWithRatings.add(new Rating("pparker", 5));
+        productWithRatings.add(new Rating("wanda maximoff", 3));
+        productWithRatings.add(new Rating("tony-stark", 10, "because of origami"));
+        productRepository.save(productWithRatings);
 
         InvoiceRepository invoiceRepository = new InvoiceRepository(context1);
         invoiceRepository.save(Invoice.created());
