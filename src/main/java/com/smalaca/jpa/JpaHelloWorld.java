@@ -16,11 +16,9 @@ public class JpaHelloWorld {
 
         ProductRepository productRepository = new ProductRepository(context1);
 
-        UUID toRemoveId = UUID.randomUUID();
-        UUID toModifyId = UUID.randomUUID();
-        productRepository.save(new Product(UUID.randomUUID(), "Water", "The best thing to drink"));
-        productRepository.save(new Product(toRemoveId, "Bread", "Something to start with"));
-        productRepository.save(new Product(toModifyId, "Carrot", "Because they said you will see better"));
+        productRepository.save(new Product("Water", "The best thing to drink"));
+        UUID toRemoveId = productRepository.save(new Product("Bread", "Something to start with"));
+        UUID toModifyId = productRepository.save(new Product("Carrot", "Because they said you will see better"));
 
         context1.close();
 

@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.UUID;
 
@@ -14,19 +15,23 @@ import java.util.UUID;
 @Entity
 public class Product {
     @Id
+    @GeneratedValue
     private UUID id;
     @Column
     private String name;
     @Column
     private String description;
 
-    public Product(UUID id, String name, String description) {
-        this.id = id;
+    public Product(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
     public void changeDescriptionTo(String description) {
         this.description = description;
+    }
+
+    UUID getId() {
+        return id;
     }
 }
