@@ -33,4 +33,10 @@ public class ToDoRepository {
         entityManager.remove(toRemove);
         entityManager.getTransaction().commit();
     }
+
+    public void update(ToDo toDo) {
+        entityManager.getTransaction().begin();
+        entityManager.merge(toDo);
+        entityManager.getTransaction().commit();
+    }
 }

@@ -36,9 +36,8 @@ public class JpaHelloWorld {
 
         ToDo toModify = toDoRepository.findById(toModifyId);
         toModify.changeSubjectTo("go to sleep but not too early");
-        context3.getTransaction().begin();
-        context3.merge(toModify);
-        context3.getTransaction().commit();
+
+        toDoRepository.update(toModify);
 
         context3.close();
         nextContext();
