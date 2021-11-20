@@ -1,6 +1,7 @@
 package com.smalaca.jpa;
 
 import com.smalaca.jpa.domain.ToDo;
+import com.smalaca.jpa.domain.ToDoRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,15 +12,14 @@ public class JpaHelloWorld {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ToDo");
         EntityManager entityManager1 = entityManagerFactory.createEntityManager();
+        ToDoRepository toDoRepository = new ToDoRepository(entityManager1);
 
-        entityManager1.getTransaction().begin();
         UUID id = UUID.randomUUID();
-        entityManager1.persist(new ToDo(id, "conduct a training"));
+        toDoRepository.save(new ToDo(id, "conduct a training"));
 
-        ToDo toDo = entityManager1.find(ToDo.class, id);
+        ToDo toDo = toDoRepository.findById(id);
 
         System.out.println(toDo);
-        entityManager1.getTransaction().commit();
         entityManager1.close();
 
         System.out.println("------------------------");
@@ -27,7 +27,8 @@ public class JpaHelloWorld {
         System.out.println("------------------------");
 
         EntityManager entityManager2 = entityManagerFactory.createEntityManager();
-        ToDo found = entityManager2.find(ToDo.class, id);
+        toDoRepository = new ToDoRepository(entityManager2);
+        ToDo found = toDoRepository.findById(id);
 
         System.out.println(found);
         entityManager2.close();
