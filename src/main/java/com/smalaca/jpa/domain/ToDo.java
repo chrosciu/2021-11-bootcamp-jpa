@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Entity
+@Entity(name = "ToDo")
 public class ToDo {
     @Id
     private UUID id;
