@@ -16,7 +16,7 @@ public class JpaHelloWorld {
 
         ProductRepository productRepository = new ProductRepository(context1);
 
-        productRepository.save(new Product("Water", "The best thing to drink"));
+        productRepository.save(new Product("Water", "The best thing to drink. On the morning, during the day and for a sleep."));
         UUID toRemoveId = productRepository.save(new Product("Bread", "Something to start with"));
         UUID toModifyId = productRepository.save(new Product("Carrot", "Because they said you will see better"));
 
