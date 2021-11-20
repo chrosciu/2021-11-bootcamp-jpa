@@ -2,16 +2,22 @@ package com.smalaca.jpa.domain;
 
 import lombok.ToString;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @ToString
@@ -31,6 +37,13 @@ public class ToDo {
 
     @Enumerated(EnumType.ORDINAL)
     private ToDoStatus status;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "comments", joinColumns = {
+            @JoinColumn(name = "todo_id")
+    })
+    @Column(name = "value")
+    private Set<String> comments = new HashSet<>();
 
     @Transient
     private String firstLetterOfSubject;
@@ -61,5 +74,9 @@ public class ToDo {
 
     public void add(Description description) {
         this.description = description;
+    }
+
+    public void addComment(String comment) {
+        comments.add(comment);
     }
 }

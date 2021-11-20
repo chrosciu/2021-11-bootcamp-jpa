@@ -27,6 +27,11 @@ public class JpaHelloWorld {
         withDescription.add(new Description("something good", "recipe for a diner"));
         toDoRepository.save(withDescription);
 
+        ToDo withComments = new ToDo("write some comment");
+        withComments.addComment("comment one");
+        withComments.addComment("comment two");
+        toDoRepository.save(withComments);
+
         ItemRepository itemRepository = new ItemRepository(context1);
         itemRepository.save(new Item(new Description("something good", "recipe for a diner")));
         itemRepository.save(new Item(new Description("something not so good", "I don't know can be not so good")));
