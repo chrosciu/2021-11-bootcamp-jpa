@@ -14,15 +14,23 @@ public class JpaHelloWorld {
         EntityManager context1 = entityManagerFactory.createEntityManager();
         ToDoRepository toDoRepository = new ToDoRepository(context1);
 
-        toDoRepository.save(new ToDo(UUID.randomUUID(), "eat lunch"));
+        UUID toRemoveId = UUID.randomUUID();
+        toDoRepository.save(new ToDo(toRemoveId, "eat lunch"));
         toDoRepository.save(new ToDo(UUID.randomUUID(), "conduct a training"));
         toDoRepository.save(new ToDo(UUID.randomUUID(), "go to sleep"));
 
         context1.close();
 
-        System.out.println("------------------------");
-        System.out.println("------------------------");
-        System.out.println("------------------------");
+        nextContext();
+        EntityManager context2 = entityManagerFactory.createEntityManager();
+
+        ToDo toRemove = context2.find(ToDo.class, toRemoveId);
+        context2.getTransaction().begin();
+        context2.remove(toRemove);
+        context2.getTransaction().commit();
+
+        context2.close();
+        nextContext();
 
         EntityManager lastContext = entityManagerFactory.createEntityManager();
         toDoRepository = new ToDoRepository(lastContext);
@@ -31,5 +39,11 @@ public class JpaHelloWorld {
                 .forEach(System.out::println);
 
         lastContext.close();
+    }
+
+    private static void nextContext() {
+        System.out.println("------------------------");
+        System.out.println("----- NEXT CONTEXT -----");
+        System.out.println("------------------------");
     }
 }
