@@ -25,4 +25,8 @@ public class Product {
         this.name = name;
         this.description = description;
     }
+
+    public void changeDescriptionTo(String description) {
+        this.description = description;
+    }
 }

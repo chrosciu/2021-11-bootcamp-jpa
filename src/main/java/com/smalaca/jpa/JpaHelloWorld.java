@@ -17,9 +17,10 @@ public class JpaHelloWorld {
         ProductRepository productRepository = new ProductRepository(context1);
 
         UUID toRemoveId = UUID.randomUUID();
+        UUID toModifyId = UUID.randomUUID();
         productRepository.save(new Product(UUID.randomUUID(), "Water", "The best thing to drink"));
         productRepository.save(new Product(toRemoveId, "Bread", "Something to start with"));
-        productRepository.save(new Product(UUID.randomUUID(), "Carrot", "Because they said you will see better"));
+        productRepository.save(new Product(toModifyId, "Carrot", "Because they said you will see better"));
 
         context1.close();
 
@@ -28,6 +29,14 @@ public class JpaHelloWorld {
         productRepository = new ProductRepository(context2);
 
         productRepository.removeById(toRemoveId);
+
+        nextContext();
+        EntityManager context3 = entityManagerFactory.createEntityManager();
+        productRepository = new ProductRepository(context3);
+
+        Product toModify = productRepository.findById(toModifyId);
+        toModify.changeDescriptionTo("Just carrot");
+        productRepository.update(toModify);
 
         nextContext();
 
