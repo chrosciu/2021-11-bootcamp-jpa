@@ -17,9 +17,6 @@ public class JpaHelloWorld {
         UUID id = UUID.randomUUID();
         toDoRepository.save(new ToDo(id, "conduct a training"));
 
-        ToDo toDo = toDoRepository.findById(id);
-
-        System.out.println(toDo);
         entityManager1.close();
 
         System.out.println("------------------------");
@@ -28,9 +25,10 @@ public class JpaHelloWorld {
 
         EntityManager entityManager2 = entityManagerFactory.createEntityManager();
         toDoRepository = new ToDoRepository(entityManager2);
-        ToDo found = toDoRepository.findById(id);
 
-        System.out.println(found);
+        toDoRepository.findAll()
+                .forEach(System.out::println);
+
         entityManager2.close();
     }
 }
