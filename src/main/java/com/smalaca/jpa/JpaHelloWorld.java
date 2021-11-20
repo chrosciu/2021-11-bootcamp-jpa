@@ -1,5 +1,8 @@
 package com.smalaca.jpa;
 
+import com.smalaca.jpa.domain.Buyer;
+import com.smalaca.jpa.domain.BuyerRepository;
+import com.smalaca.jpa.domain.ContactDetails;
 import com.smalaca.jpa.domain.Invoice;
 import com.smalaca.jpa.domain.InvoiceRepository;
 import com.smalaca.jpa.domain.Product;
@@ -26,6 +29,11 @@ public class JpaHelloWorld {
         invoiceRepository.save(Invoice.created());
         invoiceRepository.save(Invoice.created());
 
+        BuyerRepository buyerRepository = new BuyerRepository(context1);
+        buyerRepository.save(new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com")));
+        buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
+        buyerRepository.save(new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com")));
+
         context1.close();
 
         nextContext();
@@ -51,9 +59,11 @@ public class JpaHelloWorld {
         EntityManager lastContext = entityManagerFactory.createEntityManager();
         ProductRepository productRepository = new ProductRepository(lastContext);
         InvoiceRepository invoiceRepository = new InvoiceRepository(lastContext);
+        BuyerRepository buyerRepository = new BuyerRepository(lastContext);
 
         productRepository.findAll().forEach(System.out::println);
         invoiceRepository.findAll().forEach(System.out::println);
+        buyerRepository.findAll().forEach(System.out::println);
 
         lastContext.close();
     }
