@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import java.util.UUID;
 
@@ -31,7 +32,11 @@ public class Address {
     private String country;
 
     @ManyToOne
-    @JoinColumn(name = "id_of_author")
+    @JoinTable(
+            name = "all_addresses_of_author",
+            joinColumns = {@JoinColumn(name = "id_of_address")},
+            inverseJoinColumns = {@JoinColumn(name = "id_of_author")}
+    )
     private Author author;
 
     public Address(String street, String city, String postalCode, String country) {
