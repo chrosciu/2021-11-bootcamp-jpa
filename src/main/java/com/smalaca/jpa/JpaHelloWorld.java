@@ -11,6 +11,7 @@ import com.smalaca.jpa.domain.InvoiceItem;
 import com.smalaca.jpa.domain.InvoiceItemRepository;
 import com.smalaca.jpa.domain.InvoiceRepository;
 import com.smalaca.jpa.domain.Offer;
+import com.smalaca.jpa.domain.OfferItem;
 import com.smalaca.jpa.domain.OfferRepository;
 import com.smalaca.jpa.domain.Product;
 import com.smalaca.jpa.domain.ProductRepository;
@@ -56,11 +57,18 @@ public class JpaHelloWorld {
         invoiceRepository.save(Invoice.created());
 
         OfferRepository offerRepository = new OfferRepository(context1);
-        Offer offer = new Offer("QWERTY");
-        offerRepository.save(offer);
+        Offer offer1 = new Offer("QWERTY");
+        offerRepository.save(offer1);
+
+        Offer offerWithItems = new Offer("ABCDEF");
+        offerWithItems.add(new OfferItem(UUID.randomUUID(), 13));
+        offerWithItems.add(new OfferItem(UUID.randomUUID(), 42));
+        offerWithItems.add(new OfferItem(UUID.randomUUID(), 7));
+        offerWithItems.add(new OfferItem(UUID.randomUUID(), 100));
+        offerRepository.save(offerWithItems);
 
         Invoice invoice = Invoice.created();
-        invoice.add(offer);
+        invoice.add(offer1);
         invoiceRepository.save(invoice);
 
         BuyerRepository buyerRepository = new BuyerRepository(context1);
