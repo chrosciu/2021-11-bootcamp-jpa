@@ -2,15 +2,15 @@ package com.smalaca.jpa.domain;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.UUID;
 
-@ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Address {
@@ -30,6 +30,10 @@ public class Address {
     @Column
     private String country;
 
+    @ManyToOne
+    @JoinColumn(name = "id_of_author")
+    private Author author;
+
     public Address(String street, String city, String postalCode, String country) {
         this.street = street;
         this.city = city;
@@ -39,5 +43,21 @@ public class Address {
 
     public UUID getId() {
         return id;
+    }
+
+    void set(Author author) {
+        this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", country='" + country + '\'' +
+                ", author=" + (author == null ? "NO AUTHOR" : author.getId()) +
+                '}';
     }
 }

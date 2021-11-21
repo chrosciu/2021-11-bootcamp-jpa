@@ -31,7 +31,7 @@ public class Author {
     @OneToOne(mappedBy = "author")
     private ToDo toDo;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "author")
     private Set<Address> addresses = new HashSet<>();
 
     public Author(String firstName, String lastName) {
@@ -56,5 +56,6 @@ public class Author {
 
     public void add(Address address) {
         addresses.add(address);
+        address.set(this);
     }
 }
