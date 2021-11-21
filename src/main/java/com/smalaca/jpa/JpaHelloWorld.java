@@ -1,6 +1,7 @@
 package com.smalaca.jpa;
 
 import com.smalaca.jpa.domain.Basket;
+import com.smalaca.jpa.domain.BasketIdentifier;
 import com.smalaca.jpa.domain.BasketRepository;
 import com.smalaca.jpa.domain.Buyer;
 import com.smalaca.jpa.domain.BuyerRepository;
@@ -16,6 +17,7 @@ import com.smalaca.jpa.domain.SellerRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class JpaHelloWorld {
@@ -55,13 +57,13 @@ public class JpaHelloWorld {
         sellerRepository.save(new Seller(new ContactDetails("hawk", "123123123", "eye@marvel.com")));
 
         BasketRepository basketRepository = new BasketRepository(context1);
-        Basket basket1 = new Basket();
+        Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));
         basket1.addProducts(UUID.randomUUID(), 13);
         basket1.addProducts(UUID.randomUUID(), 42);
         basket1.addProducts(UUID.randomUUID(), 1);
         basketRepository.save(basket1);
-        basketRepository.save(new Basket());
-        Basket basket2 = new Basket();
+        basketRepository.save(new Basket(new BasketIdentifier("hawkeye", 42, LocalDate.of(2021, 12, 13))));
+        Basket basket2 = new Basket(new BasketIdentifier("vision", 7, LocalDate.of(2021, 10, 10)));
         basket2.addProducts(UUID.randomUUID(), 1);
         basket2.addProducts(UUID.randomUUID(), 2);
         basket2.addProducts(UUID.randomUUID(), 3);
