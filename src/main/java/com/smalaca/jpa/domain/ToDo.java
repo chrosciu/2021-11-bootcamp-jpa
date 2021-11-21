@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -62,6 +63,10 @@ public class ToDo {
 
     private ToDoCategory category;
 
+    @OneToOne
+    @JoinColumn(name = "auth_id")
+    private Author author;
+
     @Transient
     private String firstLetterOfSubject;
 
@@ -103,5 +108,9 @@ public class ToDo {
 
     public void setCategory(ToDoCategory category) {
         this.category = category;
+    }
+
+    public void set(Author author) {
+        this.author = author;
     }
 }

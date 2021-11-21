@@ -1,5 +1,7 @@
 package com.smalaca.jpa;
 
+import com.smalaca.jpa.domain.Author;
+import com.smalaca.jpa.domain.AuthorRepository;
 import com.smalaca.jpa.domain.Comment;
 import com.smalaca.jpa.domain.Description;
 import com.smalaca.jpa.domain.Item;
@@ -44,6 +46,14 @@ public class JpaHelloWorld {
         ToDo todoWithTodoCategory = new ToDo("Todo with todo category");
         todoWithTodoCategory.setCategory(new ToDoCategory("WORK", "item that needs to be done at work"));
         toDoRepository.save(todoWithTodoCategory);
+
+        AuthorRepository authorRepository = new AuthorRepository(context1);
+        Author sebastianMalaca = new Author("Sebastian", "Malaca");
+        authorRepository.save(sebastianMalaca);
+
+        ToDo withAnAuthor = new ToDo("with an author");
+        withAnAuthor.set(sebastianMalaca);
+        toDoRepository.save(withAnAuthor);
 
         ItemRepository itemRepository = new ItemRepository(context1);
         itemRepository.save(new Item(new Description("something good", "recipe for a diner")));
