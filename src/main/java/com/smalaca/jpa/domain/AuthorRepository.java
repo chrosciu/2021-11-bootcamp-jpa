@@ -29,6 +29,5 @@ public class AuthorRepository {
         entityManager.getTransaction().begin();
         entityManager.remove(toRemove);
         entityManager.getTransaction().commit();
-
     }
 }

@@ -56,6 +56,12 @@ public class JpaHelloWorld {
         tonyStark.add(new Address("Aleja Jana Pawła II", "Kraków", "98-765", "Polska"));
         authorRepository.save(tonyStark);
 
+        Author steveRogers = new Author("Steve", "Rogers");
+        steveRogers.add(new Address("Grodzka", "Kraków", "34-453", "Polska"));
+        Address addressToRemove = new Address("Sienna", "Kraków", "00-999", "Polska");
+        steveRogers.add(addressToRemove);
+        UUID toRemoveSteveRogersId = authorRepository.save(steveRogers);
+
         Author sebastianMalaca = new Author("Sebastian", "Malaca");
         authorRepository.save(sebastianMalaca);
         Author peterParker = new Author("Peter", "Parker");
@@ -81,10 +87,12 @@ public class JpaHelloWorld {
         // REMOVE
         EntityManager context2 = entityManagerFactory.createEntityManager();
         toDoRepository = new ToDoRepository(context2);
+        AddressRepository addressRepository = new AddressRepository(context2);
         authorRepository = new AuthorRepository(context2);
 
         toDoRepository.removeById(toRemoveId);
-//        authorRepository.removeById(peterParker.getId());
+        authorRepository.removeById(toRemoveSteveRogersId);
+//        addressRepository.removeById(addressToRemove.getId());
         toDoRepository.removeById(todoWithAuthorId);
 
         context2.close();

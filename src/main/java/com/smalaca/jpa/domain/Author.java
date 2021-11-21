@@ -31,7 +31,7 @@ public class Author {
     @OneToOne(mappedBy = "author")
     private ToDo toDo;
 
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.ALL})
     private Set<Address> addresses = new HashSet<>();
 
     public Author(String firstName, String lastName) {

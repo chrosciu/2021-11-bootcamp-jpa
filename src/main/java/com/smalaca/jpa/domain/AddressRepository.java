@@ -2,6 +2,7 @@ package com.smalaca.jpa.domain;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.UUID;
 
 public class AddressRepository {
     private final EntityManager entityManager;
@@ -13,5 +14,14 @@ public class AddressRepository {
     public List<Address> findAll() {
         return entityManager.createQuery(
                 "SELECT address FROM Address address").getResultList();
+    }
+
+    public void removeById(UUID id) {
+        Address toRemove = entityManager.find(Address.class, id);
+
+        entityManager.getTransaction().begin();
+        entityManager.remove(toRemove);
+        entityManager.getTransaction().commit();
+
     }
 }
