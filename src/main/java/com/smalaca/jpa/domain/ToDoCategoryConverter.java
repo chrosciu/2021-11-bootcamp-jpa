@@ -1,7 +1,9 @@
 package com.smalaca.jpa.domain;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
+@Converter(autoApply = true)
 public class ToDoCategoryConverter implements AttributeConverter<ToDoCategory, String> {
     private static final String NO_CATEGORY = "";
     private static final String SEPARATOR = ";";
