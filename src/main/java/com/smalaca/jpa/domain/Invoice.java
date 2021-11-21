@@ -2,7 +2,6 @@ package com.smalaca.jpa.domain;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +9,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
 @Entity
 public class Invoice {
     @Id
@@ -28,10 +28,22 @@ public class Invoice {
     @OneToOne
     private Offer offer;
 
-    public static Invoice created() {
-        Invoice invoice = new Invoice();
-        invoice.status = InvoiceStatus.CREATED;
-        return invoice;
+    @ManyToOne
+    @JoinColumn(name = "seller_id", nullable = false)
+    private Seller seller;
+
+    @ManyToOne
+    @JoinColumn(name = "buyer_id", nullable = false)
+    private Buyer buyer;
+
+    private Invoice(Buyer buyer, Seller seller, InvoiceStatus invoiceStatus) {
+        this.buyer = buyer;
+        this.seller = seller;
+        status = invoiceStatus;
+    }
+
+    public static Invoice created(Buyer buyer, Seller seller) {
+        return new Invoice(buyer, seller, InvoiceStatus.CREATED);
     }
 
     public void add(Offer offer) {
@@ -40,5 +52,16 @@ public class Invoice {
 
     UUID getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "id=" + id +
+                ", status=" + status +
+                ", offer=" + offer +
+                ", seller=" + seller.getId() +
+                ", buyer=" + buyer.getId() +
+                '}';
     }
 }

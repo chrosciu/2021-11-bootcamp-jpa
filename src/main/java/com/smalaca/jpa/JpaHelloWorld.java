@@ -51,10 +51,23 @@ public class JpaHelloWorld {
         invoiceItemRepository.save(new InvoiceItem(productWithRatings, 13));
         invoiceItemRepository.save(new InvoiceItem(productWithCategories, 7));
 
+        Buyer carolDanvers = new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com"));
+        Buyer peterParker = new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com"));
+        BuyerRepository buyerRepository = new BuyerRepository(context1);
+        buyerRepository.save(peterParker);
+        buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
+        buyerRepository.save(carolDanvers);
+
+        Seller blackWidow = new Seller(new ContactDetails("natasha", "000111222", "romanoff@marvel.com"));
+        Seller hawkeye = new Seller(new ContactDetails("hawk", "123123123", "eye@marvel.com"));
+        SellerRepository sellerRepository = new SellerRepository(context1);
+        sellerRepository.save(blackWidow);
+        sellerRepository.save(hawkeye);
+
         InvoiceRepository invoiceRepository = new InvoiceRepository(context1);
-        invoiceRepository.save(Invoice.created());
-        invoiceRepository.save(Invoice.created());
-        invoiceRepository.save(Invoice.created());
+        invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
+        invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
+        invoiceRepository.save(Invoice.created(peterParker, blackWidow));
 
         OfferRepository offerRepository = new OfferRepository(context1);
         Offer offer1 = new Offer("QWERTY");
@@ -67,18 +80,9 @@ public class JpaHelloWorld {
         offerWithItems.add(new OfferItem(UUID.randomUUID(), 100));
         offerRepository.save(offerWithItems);
 
-        Invoice invoice = Invoice.created();
+        Invoice invoice = Invoice.created(carolDanvers, blackWidow);
         invoice.add(offer1);
-        invoiceRepository.save(invoice);
-
-        BuyerRepository buyerRepository = new BuyerRepository(context1);
-        buyerRepository.save(new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com")));
-        buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
-        buyerRepository.save(new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com")));
-
-        SellerRepository sellerRepository = new SellerRepository(context1);
-        sellerRepository.save(new Seller(new ContactDetails("natasha", "000111222", "romanoff@marvel.com")));
-        sellerRepository.save(new Seller(new ContactDetails("hawk", "123123123", "eye@marvel.com")));
+        UUID toRemoveInvoiceId = invoiceRepository.save(invoice);
 
         BasketRepository basketRepository = new BasketRepository(context1);
         Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));
@@ -98,7 +102,13 @@ public class JpaHelloWorld {
         nextContext();
         EntityManager context2 = entityManagerFactory.createEntityManager();
         productRepository = new ProductRepository(context2);
+        invoiceRepository = new InvoiceRepository(context2);
+        sellerRepository = new SellerRepository(context2);
+        buyerRepository = new BuyerRepository(context2);
 
+//        invoiceRepository.removeById(toRemoveInvoiceId);
+//        sellerRepository.removeById(blackWidow.getId());
+//        buyerRepository.removeById(peterParker.getId());
         productRepository.removeById(toRemoveId);
 
         nextContext();
