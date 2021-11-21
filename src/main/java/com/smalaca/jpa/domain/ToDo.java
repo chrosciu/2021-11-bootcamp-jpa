@@ -15,10 +15,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -50,6 +53,12 @@ public class ToDo {
             @AttributeOverride(name = "comment", column = @Column(name = "cmnt"))
     })
     private Set<Comment> comments = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "tags")
+    @MapKeyColumn(name = "name", unique = true)
+    @Column(name = "description")
+    private Map<String, String> tags = new HashMap<>();
 
     @Transient
     private String firstLetterOfSubject;
@@ -84,5 +93,9 @@ public class ToDo {
 
     public void addComment(Comment comment) {
         comments.add(comment);
+    }
+
+    public void addTag(String name, String description) {
+        tags.put(name, description);
     }
 }

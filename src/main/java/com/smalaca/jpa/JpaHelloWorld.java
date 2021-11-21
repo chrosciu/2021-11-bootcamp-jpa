@@ -34,6 +34,12 @@ public class JpaHelloWorld {
         withComments.addComment(new Comment("peter parker", "comment three"));
         toDoRepository.save(withComments);
 
+        ToDo todoItemWithTags = new ToDo("todo item with tags");
+        todoItemWithTags.addTag("important", "very important thing");
+        todoItemWithTags.addTag("must have", "something that must be done");
+        todoItemWithTags.addTag("nice", "something I really like");
+        toDoRepository.save(todoItemWithTags);
+
         ItemRepository itemRepository = new ItemRepository(context1);
         itemRepository.save(new Item(new Description("something good", "recipe for a diner")));
         itemRepository.save(new Item(new Description("something not so good", "I don't know can be not so good")));
