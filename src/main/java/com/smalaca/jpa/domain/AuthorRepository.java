@@ -1,6 +1,7 @@
 package com.smalaca.jpa.domain;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class AuthorRepository {
     private final EntityManager entityManager;
@@ -13,5 +14,9 @@ public class AuthorRepository {
         entityManager.getTransaction().begin();
         entityManager.persist(author);
         entityManager.getTransaction().commit();
+    }
+
+    public List<Author> findAll() {
+        return entityManager.createQuery("SELECT a FROM Author a").getResultList();
     }
 }

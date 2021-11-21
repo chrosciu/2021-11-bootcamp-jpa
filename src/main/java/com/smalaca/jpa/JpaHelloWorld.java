@@ -50,10 +50,16 @@ public class JpaHelloWorld {
         AuthorRepository authorRepository = new AuthorRepository(context1);
         Author sebastianMalaca = new Author("Sebastian", "Malaca");
         authorRepository.save(sebastianMalaca);
+        Author peterParker = new Author("Peter", "Parker");
+        authorRepository.save(peterParker);
 
         ToDo withAnAuthor = new ToDo("with an author");
         withAnAuthor.set(sebastianMalaca);
         toDoRepository.save(withAnAuthor);
+
+        ToDo withAnAnotherAuthor = new ToDo("with an another author");
+        withAnAnotherAuthor.set(peterParker);
+        UUID todoWithAuthorId = toDoRepository.save(withAnAnotherAuthor);
 
         ItemRepository itemRepository = new ItemRepository(context1);
         itemRepository.save(new Item(new Description("something good", "recipe for a diner")));
@@ -69,6 +75,7 @@ public class JpaHelloWorld {
         toDoRepository = new ToDoRepository(context2);
 
         toDoRepository.removeById(toRemoveId);
+        toDoRepository.removeById(todoWithAuthorId);
 
         context2.close();
         nextContext();
@@ -94,6 +101,7 @@ public class JpaHelloWorld {
 
         new ToDoRepository(lastContext).findAll().forEach(System.out::println);
         new ItemRepository(lastContext).findAll().forEach(System.out::println);
+        new AuthorRepository(lastContext).findAll().forEach(System.out::println);
 
         lastContext.close();
     }
