@@ -5,6 +5,7 @@ import com.smalaca.jpa.domain.BasketIdentifier;
 import com.smalaca.jpa.domain.BasketRepository;
 import com.smalaca.jpa.domain.Buyer;
 import com.smalaca.jpa.domain.BuyerRepository;
+import com.smalaca.jpa.domain.Characteristic;
 import com.smalaca.jpa.domain.ContactDetails;
 import com.smalaca.jpa.domain.Invoice;
 import com.smalaca.jpa.domain.InvoiceItem;
@@ -14,6 +15,7 @@ import com.smalaca.jpa.domain.Offer;
 import com.smalaca.jpa.domain.OfferItem;
 import com.smalaca.jpa.domain.OfferRepository;
 import com.smalaca.jpa.domain.Product;
+import com.smalaca.jpa.domain.ProductDefinition;
 import com.smalaca.jpa.domain.ProductRepository;
 import com.smalaca.jpa.domain.Rating;
 import com.smalaca.jpa.domain.Seller;
@@ -63,6 +65,18 @@ public class JpaHelloWorld {
         SellerRepository sellerRepository = new SellerRepository(context1);
         sellerRepository.save(blackWidow);
         sellerRepository.save(hawkeye);
+
+        Seller withDefinitionsOne = new Seller(new ContactDetails("withDefinitionsOne", "1234", "seller1@mail.com"));
+        ProductDefinition water = new ProductDefinition("water");
+        water.add(Characteristic.COOL);
+        water.add(Characteristic.SOFT);
+        withDefinitionsOne.add(water);
+        withDefinitionsOne.add(new ProductDefinition("bread"));
+
+        Seller withDefinitionsTwo = new Seller(new ContactDetails("withDefinitionsTwo", "5678", "seller2@mail.com"));
+        withDefinitionsTwo.add(new ProductDefinition("carrot"));
+        sellerRepository.save(withDefinitionsOne);
+        sellerRepository.save(withDefinitionsTwo);
 
         InvoiceRepository invoiceRepository = new InvoiceRepository(context1);
         invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
