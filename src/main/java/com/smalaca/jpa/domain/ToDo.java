@@ -126,6 +126,11 @@ public class ToDo {
     }
 
     public void add(Watcher watcher) {
+        justAdd(watcher);
+        watcher.justAdd(this);
+    }
+
+    void justAdd(Watcher watcher) {
         watchers.add(watcher);
     }
 }
