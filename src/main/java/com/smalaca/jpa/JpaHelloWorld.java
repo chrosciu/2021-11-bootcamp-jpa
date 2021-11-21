@@ -7,6 +7,8 @@ import com.smalaca.jpa.domain.Buyer;
 import com.smalaca.jpa.domain.BuyerRepository;
 import com.smalaca.jpa.domain.ContactDetails;
 import com.smalaca.jpa.domain.Invoice;
+import com.smalaca.jpa.domain.InvoiceItem;
+import com.smalaca.jpa.domain.InvoiceItemRepository;
 import com.smalaca.jpa.domain.InvoiceRepository;
 import com.smalaca.jpa.domain.Offer;
 import com.smalaca.jpa.domain.OfferRepository;
@@ -43,6 +45,10 @@ public class JpaHelloWorld {
         productWithRatings.add(new Rating("wanda maximoff", 3));
         productWithRatings.add(new Rating("tony-stark", 10, "because of origami"));
         productRepository.save(productWithRatings);
+
+        InvoiceItemRepository invoiceItemRepository = new InvoiceItemRepository(context1);
+        invoiceItemRepository.save(new InvoiceItem(productWithRatings, 13));
+        invoiceItemRepository.save(new InvoiceItem(productWithCategories, 7));
 
         InvoiceRepository invoiceRepository = new InvoiceRepository(context1);
         invoiceRepository.save(Invoice.created());
@@ -108,6 +114,7 @@ public class JpaHelloWorld {
         SellerRepository sellerRepository = new SellerRepository(lastContext);
         BasketRepository basketRepository = new BasketRepository(lastContext);
         OfferRepository offerRepository = new OfferRepository(lastContext);
+        InvoiceItemRepository invoiceItemRepository = new InvoiceItemRepository(lastContext);
 
         productRepository.findAll().forEach(System.out::println);
         invoiceRepository.findAll().forEach(System.out::println);
@@ -115,6 +122,7 @@ public class JpaHelloWorld {
         sellerRepository.findAll().forEach(System.out::println);
         basketRepository.findAll().forEach(System.out::println);
         offerRepository.findAll().forEach(System.out::println);
+        invoiceItemRepository.findAll().forEach(System.out::println);
 
         lastContext.close();
     }
