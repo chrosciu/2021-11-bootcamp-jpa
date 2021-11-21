@@ -4,6 +4,7 @@ import lombok.ToString;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -15,6 +16,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
@@ -67,6 +70,14 @@ public class ToDo {
     @JoinColumn(name = "auth_id")
     private Author author;
 
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "watchers_of_todos",
+            joinColumns = {@JoinColumn(name = "todo_id")},
+            inverseJoinColumns = {@JoinColumn(name = "watcher_id")}
+    )
+    private Set<Watcher> watchers = new HashSet<>();
+
     @Transient
     private String firstLetterOfSubject;
 
@@ -112,5 +123,9 @@ public class ToDo {
 
     public void set(Author author) {
         this.author = author;
+    }
+
+    public void add(Watcher watcher) {
+        watchers.add(watcher);
     }
 }

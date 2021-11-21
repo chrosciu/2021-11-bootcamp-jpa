@@ -11,6 +11,7 @@ import com.smalaca.jpa.domain.ItemRepository;
 import com.smalaca.jpa.domain.ToDo;
 import com.smalaca.jpa.domain.ToDoCategory;
 import com.smalaca.jpa.domain.ToDoRepository;
+import com.smalaca.jpa.domain.Watcher;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -74,6 +75,19 @@ public class JpaHelloWorld {
         ToDo withAnAnotherAuthor = new ToDo("with an another author");
         withAnAnotherAuthor.set(peterParker);
         UUID todoWithAuthorId = toDoRepository.save(withAnAnotherAuthor);
+
+        ToDo withWatchers = new ToDo("with Watchers");
+        withWatchers.add(new Watcher("wolverine"));
+        withWatchers.add(new Watcher("cyclop"));
+        withWatchers.add(new Watcher("profesorX"));
+
+        ToDo watchedBySomeone = new ToDo("item that is watched by someone");
+        watchedBySomeone.add(new Watcher("jeanGrey"));
+        watchedBySomeone.add(new Watcher("jubilee"));
+        watchedBySomeone.add(new Watcher("shadow cat"));
+
+        toDoRepository.save(withWatchers);
+        toDoRepository.save(watchedBySomeone);
 
         ItemRepository itemRepository = new ItemRepository(context1);
         itemRepository.save(new Item(new Description("something good", "recipe for a diner")));
