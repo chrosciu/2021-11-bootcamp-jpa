@@ -18,4 +18,6 @@ public interface SpringAddressRepository extends CrudRepository<Address, UUID> {
             "new com.smalaca.jpa.domain.AddressInCountryDto(a.street, a.city, a.postalCode) " +
             "FROM Address a WHERE a.country = :country")
     List<AddressInCountryDto> findAllForCountry(String country);
+
+    List<AddressInCountryView> findAllByCountry(String country);
 }

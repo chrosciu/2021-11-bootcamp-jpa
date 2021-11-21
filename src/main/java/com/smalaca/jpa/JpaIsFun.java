@@ -52,7 +52,11 @@ public class JpaIsFun {
         springAuthorRepository.save(tonyStark);
         springAuthorRepository.save(steveRogers);
 
-        springAddressRepository.findAllForCountry("Polska").forEach(System.out::println);
+        springAddressRepository.findAllByCountry("Polska").forEach(view -> {
+            System.out.println(view.getStreet() + "; " +
+                    view.getPostalCode() + "; " +
+                    view.getCity());
+        });
     }
 
     private void displayAll() {
