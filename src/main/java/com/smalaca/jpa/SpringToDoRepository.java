@@ -11,4 +11,7 @@ import java.util.UUID;
 public interface SpringToDoRepository extends CrudRepository<ToDo, UUID> {
     @Query("SELECT t FROM ToDo t WHERE t.subject =:sub")
     List<ToDo> findAllWithSubject(@Param("sub") String subject);
+
+    @Query("SELECT t.subject FROM ToDo t ORDER BY t.subject DESC")
+    Iterable<String> findAllSubjects();
 }

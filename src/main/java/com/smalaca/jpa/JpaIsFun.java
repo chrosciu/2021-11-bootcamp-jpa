@@ -37,7 +37,8 @@ public class JpaIsFun {
         springToDoRepository.save(new ToDo("go to sleep"));
         springToDoRepository.save(new ToDo("go to sleep but not too soon"));
 
-        springToDoRepository.findAllWithSubject("go to sleep").forEach(System.out::println);
+//        springToDoRepository.findAllWithSubject("go to sleep").forEach(System.out::println);
+        springToDoRepository.findAllSubjects().forEach(System.out::println);
 
         Author tonyStark = new Author("Tony", "Stark");
         tonyStark.add(new Address("street", "city", "postal code", "country"));
