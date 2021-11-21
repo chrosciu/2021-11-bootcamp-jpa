@@ -5,6 +5,7 @@ import com.smalaca.jpa.domain.Description;
 import com.smalaca.jpa.domain.Item;
 import com.smalaca.jpa.domain.ItemRepository;
 import com.smalaca.jpa.domain.ToDo;
+import com.smalaca.jpa.domain.ToDoCategory;
 import com.smalaca.jpa.domain.ToDoRepository;
 
 import javax.persistence.EntityManager;
@@ -39,6 +40,10 @@ public class JpaHelloWorld {
         todoItemWithTags.addTag("must have", "something that must be done");
         todoItemWithTags.addTag("nice", "something I really like");
         toDoRepository.save(todoItemWithTags);
+
+        ToDo todoWithTodoCategory = new ToDo("Todo with todo category");
+        todoWithTodoCategory.setCategory(new ToDoCategory("WORK", "item that needs to be done at work"));
+        toDoRepository.save(todoWithTodoCategory);
 
         ItemRepository itemRepository = new ItemRepository(context1);
         itemRepository.save(new Item(new Description("something good", "recipe for a diner")));
