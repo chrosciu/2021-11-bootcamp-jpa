@@ -35,6 +35,9 @@ public class JpaIsFun {
         springToDoRepository.save(new ToDo("eat lunch"));
         springToDoRepository.save(new ToDo("conduct a training"));
         springToDoRepository.save(new ToDo("go to sleep"));
+        springToDoRepository.save(new ToDo("go to sleep but not too soon"));
+
+        springToDoRepository.findAllWithSubject("go to sleep").forEach(System.out::println);
 
         Author tonyStark = new Author("Tony", "Stark");
         tonyStark.add(new Address("street", "city", "postal code", "country"));
@@ -50,12 +53,6 @@ public class JpaIsFun {
 
         springAuthorRepository.save(tonyStark);
         springAuthorRepository.save(steveRogers);
-
-//        Address found1 = springAddressRepository.findOneByStreetAndCity("Sienna", "Kraków");
-//        System.out.println(found1);
-//        Address found2 = springAddressRepository.findOneByStreetAndCity("NoName", "Kraków");
-//        System.out.println(found2);
-        springAddressRepository.findAllByCityOrStreet("New York", "Sienna").forEach(System.out::println);
     }
 
     private void displayAll() {
