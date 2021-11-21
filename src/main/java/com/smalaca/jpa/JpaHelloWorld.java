@@ -73,8 +73,10 @@ public class JpaHelloWorld {
         // REMOVE
         EntityManager context2 = entityManagerFactory.createEntityManager();
         toDoRepository = new ToDoRepository(context2);
+        authorRepository = new AuthorRepository(context2);
 
         toDoRepository.removeById(toRemoveId);
+//        authorRepository.removeById(peterParker.getId());
         toDoRepository.removeById(todoWithAuthorId);
 
         context2.close();
