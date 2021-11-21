@@ -120,7 +120,10 @@ public class JpaHelloWorld {
         toDoRepository = new ToDoRepository(context2);
         AddressRepository addressRepository = new AddressRepository(context2);
         authorRepository = new AuthorRepository(context2);
+        watcherRepository = new WatcherRepository(context2);
 
+        watcherRepository.removeById(cyclop.getId());
+//        toDoRepository.removeById(watchedBySomeone.getId());
         toDoRepository.removeById(toRemoveId);
         authorRepository.removeById(toRemoveSteveRogersId);
 //        addressRepository.removeById(addressToRemove.getId());

@@ -23,4 +23,11 @@ public class WatcherRepository {
         return entityManager.createQuery(
                 "SELECT watcher FROM Watcher watcher").getResultList();
     }
+
+    public void removeById(UUID id) {
+        Watcher toRemove = entityManager.find(Watcher.class, id);
+        entityManager.getTransaction().begin();
+        entityManager.remove(toRemove);
+        entityManager.getTransaction().commit();
+    }
 }

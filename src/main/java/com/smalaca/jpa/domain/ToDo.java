@@ -100,7 +100,7 @@ public class ToDo {
         this.subject = subject;
     }
 
-    UUID getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -131,5 +131,9 @@ public class ToDo {
 
     void justAdd(Watcher watcher) {
         watchers.add(watcher);
+    }
+
+    void remove(Watcher watcher) {
+        watchers.remove(watcher);
     }
 }

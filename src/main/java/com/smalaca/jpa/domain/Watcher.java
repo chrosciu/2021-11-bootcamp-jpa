@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -47,7 +48,12 @@ public class Watcher {
         toDos.add(toDo);
     }
 
-    UUID getId() {
+    public UUID getId() {
         return id;
+    }
+
+    @PreRemove
+    private void clearToDos() {
+        toDos.forEach(todo -> todo.remove(this));
     }
 }
