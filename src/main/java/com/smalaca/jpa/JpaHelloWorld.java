@@ -1,5 +1,7 @@
 package com.smalaca.jpa;
 
+import com.smalaca.jpa.domain.Address;
+import com.smalaca.jpa.domain.AddressRepository;
 import com.smalaca.jpa.domain.Author;
 import com.smalaca.jpa.domain.AuthorRepository;
 import com.smalaca.jpa.domain.Comment;
@@ -48,6 +50,12 @@ public class JpaHelloWorld {
         toDoRepository.save(todoWithTodoCategory);
 
         AuthorRepository authorRepository = new AuthorRepository(context1);
+        Author tonyStark = new Author("Tony", "Stark");
+        tonyStark.add(new Address("street", "city", "postal code", "country"));
+        tonyStark.add(new Address("Floriańska", "Kraków", "12-345", "Polska"));
+        tonyStark.add(new Address("Aleja Jana Pawła II", "Kraków", "98-765", "Polska"));
+        authorRepository.save(tonyStark);
+
         Author sebastianMalaca = new Author("Sebastian", "Malaca");
         authorRepository.save(sebastianMalaca);
         Author peterParker = new Author("Peter", "Parker");
@@ -104,6 +112,7 @@ public class JpaHelloWorld {
         new ToDoRepository(lastContext).findAll().forEach(System.out::println);
         new ItemRepository(lastContext).findAll().forEach(System.out::println);
         new AuthorRepository(lastContext).findAll().forEach(System.out::println);
+        new AddressRepository(lastContext).findAll().forEach(System.out::println);
 
         lastContext.close();
     }
