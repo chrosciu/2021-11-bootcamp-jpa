@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface SpringAddressRepository extends CrudRepository<Address, UUID> {
     List<Address> findAllByCity(String city);
     Optional<Address> findOneByCityAndStreet(String city, String street);
+    Address findOneByStreetAndCity(String street, String city);
+    List<Address> findAllByCityOrStreet(String city, String street);
 }

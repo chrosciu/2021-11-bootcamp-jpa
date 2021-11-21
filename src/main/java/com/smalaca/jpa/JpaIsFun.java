@@ -9,7 +9,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 public class JpaIsFun {
@@ -52,11 +51,11 @@ public class JpaIsFun {
         springAuthorRepository.save(tonyStark);
         springAuthorRepository.save(steveRogers);
 
-        Optional<Address> found1 = springAddressRepository.findOneByCityAndStreet("Kraków", "Sienna");
-        System.out.println(found1);
-        Optional<Address> found2 = springAddressRepository.findOneByCityAndStreet("Kraków", "NoName");
-        System.out.println(found2);
-//        springAddressRepository.findAllByCity("Kraków").forEach(System.out::println);
+//        Address found1 = springAddressRepository.findOneByStreetAndCity("Sienna", "Kraków");
+//        System.out.println(found1);
+//        Address found2 = springAddressRepository.findOneByStreetAndCity("NoName", "Kraków");
+//        System.out.println(found2);
+        springAddressRepository.findAllByCityOrStreet("New York", "Sienna").forEach(System.out::println);
     }
 
     private void displayAll() {
