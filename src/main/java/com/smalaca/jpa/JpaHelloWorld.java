@@ -12,6 +12,7 @@ import com.smalaca.jpa.domain.ToDo;
 import com.smalaca.jpa.domain.ToDoCategory;
 import com.smalaca.jpa.domain.ToDoRepository;
 import com.smalaca.jpa.domain.Watcher;
+import com.smalaca.jpa.domain.WatcherRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -76,15 +77,31 @@ public class JpaHelloWorld {
         withAnAnotherAuthor.set(peterParker);
         UUID todoWithAuthorId = toDoRepository.save(withAnAnotherAuthor);
 
+        WatcherRepository watcherRepository = new WatcherRepository(context1);
+        Watcher wolverine = new Watcher("wolverine");
+        watcherRepository.save(wolverine);
+        Watcher cyclop = new Watcher("cyclop");
+        watcherRepository.save(cyclop);
+        Watcher profesorX = new Watcher("profesorX");
+        watcherRepository.save(profesorX);
+        Watcher jeanGrey = new Watcher("jeanGrey");
+        watcherRepository.save(jeanGrey);
+        Watcher jubilee = new Watcher("jubilee");
+        watcherRepository.save(jubilee);
+
         ToDo withWatchers = new ToDo("with Watchers");
-        withWatchers.add(new Watcher("wolverine"));
-        withWatchers.add(new Watcher("cyclop"));
-        withWatchers.add(new Watcher("profesorX"));
+        withWatchers.add(wolverine);
+        withWatchers.add(cyclop);
+        withWatchers.add(profesorX);
 
         ToDo watchedBySomeone = new ToDo("item that is watched by someone");
-        watchedBySomeone.add(new Watcher("jeanGrey"));
-        watchedBySomeone.add(new Watcher("jubilee"));
-        watchedBySomeone.add(new Watcher("shadow cat"));
+        watchedBySomeone.add(jeanGrey);
+        watchedBySomeone.add(jubilee);
+
+        jubilee.add(todoWithTodoCategory);
+        jubilee.add(withAnAuthor);
+        cyclop.add(todoWithTodoCategory);
+        cyclop.add(withAnAuthor);
 
         toDoRepository.save(withWatchers);
         toDoRepository.save(watchedBySomeone);
@@ -135,6 +152,7 @@ public class JpaHelloWorld {
         new ItemRepository(lastContext).findAll().forEach(System.out::println);
         new AuthorRepository(lastContext).findAll().forEach(System.out::println);
         new AddressRepository(lastContext).findAll().forEach(System.out::println);
+        new WatcherRepository(lastContext).findAll().forEach(System.out::println);
 
         lastContext.close();
     }

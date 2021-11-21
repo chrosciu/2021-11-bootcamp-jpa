@@ -4,7 +4,6 @@ import lombok.ToString;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -70,7 +69,7 @@ public class ToDo {
     @JoinColumn(name = "auth_id")
     private Author author;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     @JoinTable(
             name = "watchers_of_todos",
             joinColumns = {@JoinColumn(name = "todo_id")},

@@ -46,4 +46,8 @@ public class Watcher {
     void justAdd(ToDo toDo) {
         toDos.add(toDo);
     }
+
+    UUID getId() {
+        return id;
+    }
 }
