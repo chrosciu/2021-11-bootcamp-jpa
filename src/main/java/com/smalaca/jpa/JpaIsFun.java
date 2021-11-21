@@ -55,7 +55,9 @@ public class JpaIsFun {
         springAddressRepository.findAllByCountry("Polska").forEach(view -> {
             System.out.println(view.getStreet() + "; " +
                     view.getPostalCode() + "; " +
-                    view.getCity());
+                    view.getCity() + "; " +
+                    view.getAuthor().getFirstName() + " " +
+                    view.getAuthor().getLastName());
         });
     }
 
