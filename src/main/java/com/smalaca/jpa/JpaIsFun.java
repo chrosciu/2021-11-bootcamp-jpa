@@ -39,16 +39,19 @@ public class JpaIsFun {
         Author tonyStark = new Author("Tony", "Stark");
         tonyStark.add(new Address("street", "city", "postal code", "country"));
         tonyStark.add(new Address("Floriańska", "Kraków", "12-345", "Polska"));
+        tonyStark.add(new Address("Floriańska", "New York", "12-345", "USA"));
         tonyStark.add(new Address("Aleja Jana Pawła II", "Kraków", "98-765", "Polska"));
-        springAuthorRepository.save(tonyStark);
+        tonyStark.add(new Address("Adama Mickiewicza", "Kraków", "00-765", "Polska"));
 
         Author steveRogers = new Author("Steve", "Rogers");
         steveRogers.add(new Address("Grodzka", "Kraków", "34-453", "Polska"));
         Address addressToRemove = new Address("Sienna", "Kraków", "00-999", "Polska");
         steveRogers.add(addressToRemove);
+
+        springAuthorRepository.save(tonyStark);
         springAuthorRepository.save(steveRogers);
 
-        displayAll();
+        springAddressRepository.findAllByCity("Kraków").forEach(System.out::println);
     }
 
     private void displayAll() {

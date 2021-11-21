@@ -57,12 +57,10 @@ public class Address {
     @Override
     public String toString() {
         return "Address{" +
-                "id=" + id +
-                ", street='" + street + '\'' +
+                "street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 ", country='" + country + '\'' +
-                ", author=" + (author == null ? "NO AUTHOR" : author.getId()) +
                 '}';
     }
 }
