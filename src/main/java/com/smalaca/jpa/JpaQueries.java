@@ -7,6 +7,7 @@ import com.smalaca.jpa.utils.DbUtils;
 
 public class JpaQueries {
     public static void main(String[] args) {
+        DbUtils.init();
         DbUtils.populateDb();
         DbUtils.nextContext();
         DbUtils.runInEntityManagerContext(context -> {
@@ -51,6 +52,8 @@ public class JpaQueries {
             namedQuery.setParameter("login", "natasha");
             System.out.println(namedQuery.getResultList());
         });
+
+        DbUtils.close();
     }
 
 

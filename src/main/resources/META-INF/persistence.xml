@@ -11,8 +11,11 @@
             <property name="javax.persistence.jdbc.password" value="password" />
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
             <property name="hibernate.show_sql" value="true"/>
+            
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
         </properties>
     </persistence-unit>
 </persistence>

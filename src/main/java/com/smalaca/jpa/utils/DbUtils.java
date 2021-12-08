@@ -33,10 +33,20 @@ import java.util.function.Consumer;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DbUtils {
-    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ToDo");
+    private static final String PERSISTENCE_UNIT_NAME = "ToDo";
+    private static EntityManagerFactory entityManagerFactory = null;
 
     @Getter
     private static UUID invoiceId;
+
+    public static void init() {
+        entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    }
+
+    public static void close() {
+        entityManagerFactory.close();
+        entityManagerFactory = null;
+    }
 
     public static void runInEntityManagerContext(Consumer<EntityManager> action) {
         EntityManager context = entityManagerFactory.createEntityManager();

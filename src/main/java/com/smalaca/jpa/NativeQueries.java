@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class NativeQueries {
     public static void main(String[] args) {
+        DbUtils.init();
         DbUtils.populateDb();
         DbUtils.nextContext();
         DbUtils.runInEntityManagerContext(context -> {
@@ -47,5 +48,7 @@ public class NativeQueries {
             namedNativeQuery.setParameter("login", "natasha");
             System.out.println(namedNativeQuery.getResultList());
         });
+
+        DbUtils.close();
     }
 }
