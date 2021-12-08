@@ -42,6 +42,10 @@ public class NativeQueries {
             var nativeQuery6 = context.createNativeQuery("select s.id as seller_id, b.id as buyer_id from invoice i, seller s, buyer b where i.seller_id = s.id and i.buyer_id = b.id",
                     "sellerAndBuyerId");
             System.out.println(nativeQuery6.getResultList());
+
+            var namedNativeQuery = context.createNamedQuery("Invoice.findBySellerLoginNative", Invoice.class);
+            namedNativeQuery.setParameter("login", "natasha");
+            System.out.println(namedNativeQuery.getResultList());
         });
     }
 }
