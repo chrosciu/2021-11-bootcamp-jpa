@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,12 +15,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
+@SqlResultSetMapping(
+        name = "idWithStatus",
+        classes = {
+                @ConstructorResult(
+                        targetClass = com.smalaca.jpa.dto.IdWithStatus.class,
+                        columns = {
+                                @ColumnResult(name = "id"),
+                                @ColumnResult(name = "status")
+                        }
+                )
+        }
+)
+@SqlResultSetMapping(
+        name = "sellerAndBuyerId",
+        classes = {
+                @ConstructorResult(
+                        targetClass = com.smalaca.jpa.dto.SellerAndBuyerId.class,
+                        columns = {
+                                @ColumnResult(name = "seller_id"),
+                                @ColumnResult(name = "buyer_id")
+                        }
+                )
+        }
+)
 public class Invoice {
     @Id
     @GeneratedValue

@@ -1,6 +1,7 @@
 package com.smalaca.jpa;
 
 import com.smalaca.jpa.domain.Invoice;
+import com.smalaca.jpa.domain.InvoiceItem;
 import com.smalaca.jpa.dto.IdWithStatus;
 import com.smalaca.jpa.utils.DbUtils;
 
@@ -29,6 +30,14 @@ public class JpqlQueries {
 
             System.out.println("Invoices count grouped by buyer: "
                     + context.createQuery("select new com.smalaca.jpa.dto.CountWithLogin(count (i), i.buyer.contactDetails.login) from Invoice i group by i.buyer").getResultList());
+
+            var namedParamQuery = context.createQuery("from InvoiceItem ii where ii.amount > :amount", InvoiceItem.class);
+            namedParamQuery.setParameter("amount", 3);
+            System.out.println(namedParamQuery.getResultList());
+
+            var indexedParamQuery = context.createQuery("from InvoiceItem ii where ii.amount <= ?1", InvoiceItem.class);
+            indexedParamQuery.setParameter(1, 3);
+            System.out.println(indexedParamQuery.getResultList());
         });
     }
 
