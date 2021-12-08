@@ -20,6 +20,7 @@ import com.smalaca.jpa.domain.ProductRepository;
 import com.smalaca.jpa.domain.Rating;
 import com.smalaca.jpa.domain.Seller;
 import com.smalaca.jpa.domain.SellerRepository;
+import com.smalaca.jpa.dto.IdWithStatus;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -49,10 +50,6 @@ public class JpaHelloWorld {
         productWithRatings.add(new Rating("tony-stark", 10, "because of origami"));
         productRepository.save(productWithRatings);
 
-        InvoiceItemRepository invoiceItemRepository = new InvoiceItemRepository(context1);
-        invoiceItemRepository.save(new InvoiceItem(productWithRatings, 13));
-        invoiceItemRepository.save(new InvoiceItem(productWithCategories, 7));
-
         Buyer carolDanvers = new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com"));
         Buyer peterParker = new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com"));
         BuyerRepository buyerRepository = new BuyerRepository(context1);
@@ -79,9 +76,16 @@ public class JpaHelloWorld {
         sellerRepository.save(withDefinitionsTwo);
 
         InvoiceRepository invoiceRepository = new InvoiceRepository(context1);
-        invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
-        invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
-        invoiceRepository.save(Invoice.created(peterParker, blackWidow));
+        Invoice invoice1 = Invoice.created(carolDanvers, blackWidow);
+        Invoice invoice2 = Invoice.created(carolDanvers, blackWidow);
+        Invoice invoice3 = Invoice.created(peterParker, blackWidow);
+        invoiceRepository.save(invoice1);
+        invoiceRepository.save(invoice2);
+        invoiceRepository.save(invoice3);
+
+        InvoiceItemRepository invoiceItemRepository = new InvoiceItemRepository(context1);
+        invoiceItemRepository.save(new InvoiceItem(invoice1, productWithRatings, 13));
+        invoiceItemRepository.save(new InvoiceItem(invoice1, productWithCategories, 7));
 
         OfferRepository offerRepository = new OfferRepository(context1);
         Offer offer1 = new Offer("QWERTY");
@@ -94,9 +98,8 @@ public class JpaHelloWorld {
         offerWithItems.add(new OfferItem(UUID.randomUUID(), 100));
         offerRepository.save(offerWithItems);
 
-        Invoice invoice = Invoice.created(carolDanvers, blackWidow);
-        invoice.add(offer1);
-        UUID toRemoveInvoiceId = invoiceRepository.save(invoice);
+        invoice1.add(offer1);
+        UUID invoice1Id = invoiceRepository.save(invoice1);
 
         BasketRepository basketRepository = new BasketRepository(context1);
         Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));
@@ -115,27 +118,42 @@ public class JpaHelloWorld {
 
         nextContext();
         EntityManager context2 = entityManagerFactory.createEntityManager();
-        productRepository = new ProductRepository(context2);
-        invoiceRepository = new InvoiceRepository(context2);
-        sellerRepository = new SellerRepository(context2);
-        buyerRepository = new BuyerRepository(context2);
 
-//        invoiceRepository.removeById(toRemoveInvoiceId);
-//        sellerRepository.removeById(blackWidow.getId());
-//        buyerRepository.removeById(peterParker.getId());
-        productRepository.removeById(toRemoveId);
+        var invoice = context2.find(Invoice.class, invoice1Id);
+        System.out.println("Invoice1: " + invoice);
 
-        nextContext();
-        EntityManager context3 = entityManagerFactory.createEntityManager();
-        productRepository = new ProductRepository(context3);
+        var allInvoicesQuery = context2.createQuery("from Invoice i", Invoice.class);
+        var allInvoices = allInvoicesQuery.getResultList();
+        System.out.println("All invoices: " + allInvoices);
 
-        Product toModify = productRepository.findById(toModifyId);
-        toModify.changeDescriptionTo("Just carrot");
-        productRepository.update(toModify);
+        var invoiceProjectionQuery = context2.createQuery("select i.status from Invoice i");
+        var invoiceProjection = invoiceProjectionQuery.getResultList();
+        System.out.println(invoiceProjection);
 
-        nextContext();
+        var invoiceProjectionQuery2 = context2.createQuery("select i.id from Invoice i");
+        var invoiceProjection2 = invoiceProjectionQuery2.getResultList();
+        System.out.println(invoiceProjection2);
 
-        displayAll(entityManagerFactory);
+        var invoiceProjectionQuery3 = context2.createQuery("select i.id, i.status from Invoice i");
+        var invoiceProjection3 = invoiceProjectionQuery3.getResultList();
+        System.out.println(invoiceProjection3);
+
+        var invoiceProjectionQuery4 = context2.createQuery("select new com.smalaca.jpa.dto.IdWithStatus(i.id, i.status) from Invoice i", IdWithStatus.class);
+        var invoiceProjection4 = invoiceProjectionQuery4.getResultList();
+        System.out.println(invoiceProjection4);
+
+        var invoicesCountQuery = context2.createQuery("select count(i) from Invoice i", Long.class);
+        var invoicesCount = invoicesCountQuery.getSingleResult();
+        System.out.println("Invoices count: " + invoicesCount);
+
+        System.out.println(context2.createQuery("select new com.smalaca.jpa.dto.CountWithLogin(count (i), i.buyer.contactDetails.login) from Invoice i group by i.buyer").getResultList());
+
+
+
+
+
+
+
     }
 
     private static void displayAll(EntityManagerFactory entityManagerFactory) {
