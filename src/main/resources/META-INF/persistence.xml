@@ -6,7 +6,7 @@
     <persistence-unit name="ToDo" transaction-type="RESOURCE_LOCAL">
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:file:./bootcamp" />
             <property name="javax.persistence.jdbc.user" value="user" />
             <property name="javax.persistence.jdbc.password" value="password" />
 
