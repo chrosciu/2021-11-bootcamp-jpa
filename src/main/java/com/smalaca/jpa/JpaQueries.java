@@ -51,6 +51,13 @@ public class JpaQueries {
             var namedQuery = context.createNamedQuery("Invoice.findBySellerLogin", Invoice.class);
             namedQuery.setParameter("login", "natasha");
             System.out.println(namedQuery.getResultList());
+
+            context.getTransaction().begin();
+            var updateQuery = context.createQuery("update InvoiceItem i set i.amount = i.amount * 2 where i.amount > 1");
+            var updateResult = updateQuery.executeUpdate();
+            System.out.println("Updated rows: " + updateResult);
+            context.getTransaction().commit();
+
         });
 
         DbUtils.close();

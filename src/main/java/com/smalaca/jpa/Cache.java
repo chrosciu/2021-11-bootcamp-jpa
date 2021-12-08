@@ -5,7 +5,7 @@ import com.smalaca.jpa.utils.DbUtils;
 
 
 
-public class CacheFirstLevel {
+public class Cache {
     private static Invoice invoice = null;
 
     public static void main(String[] args) {
@@ -46,6 +46,15 @@ public class CacheFirstLevel {
         DbUtils.runInEntityManagerContext(context -> {
             var invoice3 = context.find(Invoice.class, DbUtils.getInvoiceId());
             System.out.println(invoice == invoice3);
+            var invoice4 = context.find(Invoice.class, DbUtils.getInvoiceId());
+        });
+        DbUtils.nextContext();
+        DbUtils.runInEntityManagerContext(context -> {
+            System.out.println("In cache: " + DbUtils.getCache().contains(Invoice.class, DbUtils.getInvoiceId()));
+            DbUtils.getCache().evictAll();
+            System.out.println("In cache: " + DbUtils.getCache().contains(Invoice.class, DbUtils.getInvoiceId()));
+            var invoice5 = context.find(Invoice.class, DbUtils.getInvoiceId());
+            System.out.println("In cache: " + DbUtils.getCache().contains(Invoice.class, DbUtils.getInvoiceId()));
         });
         DbUtils.close();
     }

@@ -1,5 +1,6 @@
 package com.smalaca.jpa.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -8,6 +9,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @ToString
 @Embeddable
+@EqualsAndHashCode
 public class Rating {
     private String login;
     private int value;

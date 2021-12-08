@@ -24,6 +24,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -163,6 +164,10 @@ public class DbUtils {
         System.out.println("-----------------------------");
         System.out.println("-------- NEW CONTEXT --------");
         System.out.println("-----------------------------");
+    }
+
+    public static Cache getCache() {
+        return entityManagerFactory.getCache();
     }
 
 }
