@@ -40,6 +40,12 @@ public class JpaQueries {
                             InvoiceItem.class);
             System.out.println("Invoice items for invoices where amount > 5: " + properJoinQuery.getResultList());
 
+            System.out.println("Invoices with number of offers: "
+                    + context.createQuery("select new com.smalaca.jpa.dto.IdWithCount(i.id, count(o)) from Invoice i join i.offer o group by i.id").getResultList());
+
+            System.out.println("Invoices with number of offers (also those without offers): "
+                    + context.createQuery("select new com.smalaca.jpa.dto.IdWithCount(i.id, count(o)) from Invoice i left join i.offer o group by i.id").getResultList());
+
             var namedParamQuery = context.createQuery("from InvoiceItem ii where ii.amount > :amount", InvoiceItem.class);
             namedParamQuery.setParameter("amount", 3);
             System.out.println(namedParamQuery.getResultList());
