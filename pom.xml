@@ -15,6 +15,7 @@
         <hibernate.version>5.6.1.Final</hibernate.version>
         <h2.version>1.4.200</h2.version>
         <lombok.version>1.18.22</lombok.version>
+        <logback.version>1.2.7</logback.version>
     </properties>
 
     <dependencies>
@@ -46,6 +47,18 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+
+        <!-- Logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
     </dependencies>
 </project>
