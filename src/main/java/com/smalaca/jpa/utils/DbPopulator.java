@@ -103,6 +103,9 @@ public final class DbPopulator {
             invoice1.add(offer1);
             invoiceId = invoiceRepository.save(invoice1);
 
+            invoice2.add(offerWithItems);
+            invoiceRepository.save(invoice2);
+
             BasketRepository basketRepository = new BasketRepository(context);
             Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));
             basket1.addProducts(UUID.randomUUID(), 13);
