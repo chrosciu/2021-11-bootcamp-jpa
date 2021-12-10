@@ -33,6 +33,9 @@ public class NativeQueries {
                 var nativeQuery3a = context.createNativeQuery("select id, status from invoice", "idWithStatus");
                 System.out.println(nativeQuery3a.getResultList());
 
+                var nativeQuery3b = context.createNativeQuery("select count(*) from invoice");
+                System.out.println(nativeQuery3b.getSingleResult());
+
 
                 var nativeQuery4 = context.createNativeQuery("select * from invoiceitem where amount > :amount", InvoiceItem.class);
                 nativeQuery4.setParameter("amount", 3);
