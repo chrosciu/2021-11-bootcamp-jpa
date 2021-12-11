@@ -2,7 +2,9 @@ package com.smalaca.jpa.domain;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -41,6 +43,8 @@ import java.util.UUID;
 @NamedNativeQuery(name = "Invoice.findBySellerLoginNative",
         query = "SELECT * from invoice i JOIN seller s ON i.seller_id = s.id WHERE s.login = :login",
         resultClass = Invoice.class)
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Invoice {
     @Id
     @GeneratedValue
