@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -37,6 +38,9 @@ import java.util.UUID;
                 )
         }
 )
+@NamedNativeQuery(name = "Invoice.findBySellerLoginNative",
+        query = "SELECT * from invoice i JOIN seller s ON i.seller_id = s.id WHERE s.login = :login",
+        resultClass = Invoice.class)
 public class Invoice {
     @Id
     @GeneratedValue

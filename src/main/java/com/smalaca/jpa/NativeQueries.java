@@ -22,7 +22,8 @@ public class NativeQueries {
                 //allInvoicesIdsAndStatuses(context);
                 //allInvoicesIdsAndStatusesWithMapping(context);
                 //allInvoicesCount(context);
-                allInvoiceItemsWithMinAmount(context, 5);
+                //allInvoiceItemsWithMinAmount(context, 5);
+                allInvoicesForSellerLogin(context, "natasha");
             });
         });
     }
@@ -64,5 +65,12 @@ public class NativeQueries {
         //query.setParameter(1, minAmount);
         var result = query.getResultList();
         System.out.println("All invoices items with min amount " + result);
+    }
+
+    private static void allInvoicesForSellerLogin(EntityManager context, String login) {
+        var query = context.createNamedQuery("Invoice.findBySellerLoginNative", Invoice.class);
+        query.setParameter("login", login);
+        var result = query.getResultList();
+        System.out.println("All invoices for seller login: " + result);
     }
 }
