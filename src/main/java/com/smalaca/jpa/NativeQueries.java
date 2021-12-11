@@ -23,8 +23,7 @@ public class NativeQueries {
                 //allInvoicesIdsAndStatusesWithMapping(context);
                 //allInvoicesCount(context);
                 //allInvoiceItemsWithMinAmount(context, 5);
-                //allInvoicesForSellerLogin(context, "natasha");
-                task2(context);
+                allInvoicesForSellerLogin(context, "natasha");
             });
         });
     }
@@ -73,19 +72,5 @@ public class NativeQueries {
         query.setParameter("login", login);
         var result = query.getResultList();
         System.out.println("All invoices for seller login: " + result);
-    }
-
-    private static void task2(EntityManager context) {
-        var queryString = "SELECT\n" +
-                "    i.id, o.OFFERNUMBER, count(oi.ID)\n" +
-                "from\n" +
-                "    invoice i LEFT JOIN offer o ON i.offer_id = o.id\n" +
-                "    LEFT JOIN OFFER_OFFERITEM o_oi ON o.id = o_oi.OFFER_ID\n" +
-                "    LEFT JOIN OFFERITEM oi ON o_oi.OFFERITEMS_ID = oi.ID\n" +
-                "WHERE o.OFFERNUMBER like 'e%' OR i.STATUS = 'CREATED'\n" +
-                "GROUP BY i.id, o.OFFERNUMBER";
-        var query = context.createNativeQuery(queryString);
-        var result = query.getResultList();
-        System.out.println(result);
     }
 }
