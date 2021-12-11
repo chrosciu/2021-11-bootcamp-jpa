@@ -47,6 +47,13 @@ public class Cache {
                 System.out.println(invoice == invoice4);
                 System.out.println("In cache: " + entityManagerFactory.getCache().contains(Invoice.class, DbPopulator.getInvoiceId()));
             });
+            DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
+                System.out.println("In cache: " + entityManagerFactory.getCache().contains(Invoice.class, DbPopulator.getInvoiceId()));
+                var invoice5 = context.find(Invoice.class, DbPopulator.getInvoiceId());
+                System.out.println(invoice == invoice5);
+                System.out.println("In cache: " + entityManagerFactory.getCache().contains(Invoice.class, DbPopulator.getInvoiceId()));
+            });
         });
+
     }
 }
