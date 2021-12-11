@@ -11,7 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -27,6 +30,9 @@ public class Invoice {
 
     @OneToOne
     private Offer offer;
+
+    @OneToMany(mappedBy = "invoice")
+    private Set<InvoiceItem> invoiceItems = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)

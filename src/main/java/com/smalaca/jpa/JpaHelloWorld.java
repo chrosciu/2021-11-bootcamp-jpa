@@ -49,10 +49,6 @@ public class JpaHelloWorld {
         productWithRatings.add(new Rating("tony-stark", 10, "because of origami"));
         productRepository.save(productWithRatings);
 
-        InvoiceItemRepository invoiceItemRepository = new InvoiceItemRepository(context1);
-        invoiceItemRepository.save(new InvoiceItem(productWithRatings, 13));
-        invoiceItemRepository.save(new InvoiceItem(productWithCategories, 7));
-
         Buyer carolDanvers = new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com"));
         Buyer peterParker = new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com"));
         BuyerRepository buyerRepository = new BuyerRepository(context1);
@@ -79,9 +75,16 @@ public class JpaHelloWorld {
         sellerRepository.save(withDefinitionsTwo);
 
         InvoiceRepository invoiceRepository = new InvoiceRepository(context1);
-        invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
-        invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
-        invoiceRepository.save(Invoice.created(peterParker, blackWidow));
+        Invoice invoice1 = Invoice.created(carolDanvers, blackWidow);
+        Invoice invoice2 = Invoice.created(carolDanvers, blackWidow);
+        Invoice invoice3 = Invoice.created(peterParker, blackWidow);
+        invoiceRepository.save(invoice1);
+        invoiceRepository.save(invoice2);
+        invoiceRepository.save(invoice3);
+
+        InvoiceItemRepository invoiceItemRepository = new InvoiceItemRepository(context1);
+        invoiceItemRepository.save(new InvoiceItem(invoice1, productWithRatings, 13));
+        invoiceItemRepository.save(new InvoiceItem(invoice1, productWithCategories, 7));
 
         OfferRepository offerRepository = new OfferRepository(context1);
         Offer offer1 = new Offer("QWERTY");
@@ -97,6 +100,9 @@ public class JpaHelloWorld {
         Invoice invoice = Invoice.created(carolDanvers, blackWidow);
         invoice.add(offer1);
         UUID toRemoveInvoiceId = invoiceRepository.save(invoice);
+
+        invoice2.add(offerWithItems);
+        invoiceRepository.save(invoice2);
 
         BasketRepository basketRepository = new BasketRepository(context1);
         Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));

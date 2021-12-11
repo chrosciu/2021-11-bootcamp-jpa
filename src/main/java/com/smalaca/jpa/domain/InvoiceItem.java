@@ -8,11 +8,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.util.UUID;
 
 @Entity
-@ToString
+@ToString(exclude = "invoice")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InvoiceItem {
     @Id
@@ -25,7 +27,12 @@ public class InvoiceItem {
     @Column
     private int amount;
 
-    public InvoiceItem(Product product, int amount) {
+    @ManyToOne
+    @JoinColumn(name = "invoice_id", nullable = false)
+    private Invoice invoice;
+
+    public InvoiceItem(Invoice invoice, Product product, int amount) {
+        this.invoice = invoice;
         this.product = product;
         this.amount = amount;
     }
