@@ -1,0 +1,12 @@
+# H2 db files
+*.mv.db
+*.trace.db
+
+# Maven
+target
+
+# IntelliJ IDEA
+.idea
+
+# MacOS X
+.DS_Store
