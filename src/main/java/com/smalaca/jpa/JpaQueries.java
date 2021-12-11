@@ -5,6 +5,7 @@ import com.smalaca.jpa.domain.InvoiceItem;
 import com.smalaca.jpa.domain.InvoiceStatus;
 import com.smalaca.jpa.dto.IdAndCount;
 import com.smalaca.jpa.dto.IdAndStatus;
+import com.smalaca.jpa.dto.InvoiceDto;
 import com.smalaca.jpa.utils.DbPopulator;
 import com.smalaca.jpa.utils.DbUtils;
 import com.smalaca.jpa.utils.LoggingUtils;
@@ -31,10 +32,25 @@ public class JpaQueries {
                 //allInvoicesIdsAndOffersCounts(context);
                 //doubleInvoiceItems(context);
                 //allInvoicesForSellerLogin(context, "natasha");
-                invoicesWithFetch(context);
+                //invoicesWithFetch(context);
+                //task1(context);
             });
 
         });
+    }
+
+    private static void task1(EntityManager context) {
+        var queryString = "select new com.smalaca.jpa.dto.InvoiceDto(i.id, o.offerNumber, count(oi)) " +
+                "from Invoice i join i.offer o left join o.offerItems oi " +
+                "where o.offerNumber like :pattern " +
+                "group by i.id, o.offerNumber " +
+                "having count(oi) >= :minAmount";
+
+        var query = context.createQuery(queryString, InvoiceDto.class);
+        query.setParameter("pattern", "E");
+        query.setParameter("minAmount", 5L);
+        var result = query.getResultList();
+        System.out.println("All invoices: " + result);
     }
 
     private static void simpleQuery(EntityManager context) {

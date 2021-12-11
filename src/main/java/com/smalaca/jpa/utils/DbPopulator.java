@@ -118,6 +118,17 @@ public final class DbPopulator {
             basket2.addProducts(UUID.randomUUID(), 2);
             basket2.addProducts(UUID.randomUUID(), 3);
             basketRepository.save(basket2);
+
+//            System.out.println("Before double:");
+//
+//            var queryString = "update InvoiceItem i set i.amount = i.amount * 2 where i.amount > 1";
+//            var query = context.createQuery(queryString);
+//            context.getTransaction().begin();
+//            var result = query.executeUpdate();
+//            context.getTransaction().commit();
+//            System.out.println("Updated rows: " + result);
+//
+//            System.out.println("After double:");
         });
     }
 
