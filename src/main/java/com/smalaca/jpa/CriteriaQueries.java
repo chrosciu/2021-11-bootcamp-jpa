@@ -95,15 +95,16 @@ public class CriteriaQueries {
         var criteriaBuilder = context.getCriteriaBuilder();
         var criteriaQuery = criteriaBuilder.createQuery(InvoiceItem.class);
         var root = criteriaQuery.from(Invoice.class);
-        var join = root.join(Invoice_.invoiceItems);
+        var joinInvoiceItem = root.join(Invoice_.invoiceItems);
+        var joinProduct = joinInvoiceItem.join(InvoiceItem_.product);
 
         var predicates = new ArrayList<Predicate>();
         Optional.ofNullable(status).ifPresent(s -> predicates.add(criteriaBuilder.equal(root.get(Invoice_.status), s)));
-        Optional.ofNullable(minAmount).ifPresent(m -> predicates.add(criteriaBuilder.greaterThan(join.get(InvoiceItem_.amount), m)));
+        Optional.ofNullable(minAmount).ifPresent(m -> predicates.add(criteriaBuilder.greaterThan(joinInvoiceItem.get(InvoiceItem_.amount), m)));
         var predicatesArray = predicates.toArray(new Predicate[0]);
 
         criteriaQuery
-                .select(join)
+                .select(joinInvoiceItem)
                 .where(criteriaBuilder.and(predicatesArray));
         var query = context.createQuery(criteriaQuery);
         var result = query.getResultList();
