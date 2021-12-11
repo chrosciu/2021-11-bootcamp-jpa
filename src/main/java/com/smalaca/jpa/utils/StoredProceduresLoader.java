@@ -24,6 +24,11 @@ public final class StoredProceduresLoader {
             "}\n" +
             "$$;";
 
+    private static final String DROP_TRIGGER = "DROP TRIGGER IF EXISTS PROD_DEF_INSERT";
+
+    private static final String CREATE_TRIGGER = "CREATE TRIGGER PROD_DEF_INSERT BEFORE INSERT ON PRODUCTDEFINITION\n" +
+            "    FOR EACH ROW CALL \"com.smalaca.jpa.utils.ProductDefinitionTrigger\"";
+
     public static void load(EntityManagerFactory entityManagerFactory) {
         DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
             context.getTransaction().begin();
@@ -31,6 +36,10 @@ public final class StoredProceduresLoader {
             dropQuery.executeUpdate();
             var createQuery = context.createNativeQuery(CREATE_PROCEDURE);
             createQuery.executeUpdate();
+            var dropTriggerQuery = context.createNativeQuery(DROP_TRIGGER);
+            dropTriggerQuery.executeUpdate();
+            var createTriggerQuery = context.createNativeQuery(CREATE_TRIGGER);
+            createTriggerQuery.executeUpdate();
             context.getTransaction().commit();
         });
     }
