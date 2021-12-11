@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -22,6 +25,18 @@ import java.util.UUID;
 @Entity
 @NamedQuery(name = "Invoice.findBySellerLogin",
         query = "from Invoice i where i.seller.contactDetails.login = :login")
+@SqlResultSetMapping(
+        name = "idAndStatus",
+        classes = {
+                @ConstructorResult(
+                        targetClass = com.smalaca.jpa.dto.IdAndStatus.class,
+                        columns = {
+                                @ColumnResult(name = "id"),
+                                @ColumnResult(name = "status")
+                        }
+                )
+        }
+)
 public class Invoice {
     @Id
     @GeneratedValue
