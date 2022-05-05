@@ -19,7 +19,7 @@ public class BuyerRepository {
     }
 
     public List<Buyer> findAll() {
-        return entityManager.createQuery("SELECT i FROM Buyer i").getResultList();
+        return entityManager.createQuery("SELECT i FROM Buyer i", Buyer.class).getResultList();
     }
 
     public void removeById(UUID id) {

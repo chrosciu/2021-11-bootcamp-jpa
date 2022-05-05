@@ -19,7 +19,7 @@ public class InvoiceRepository {
     }
 
     public List<Invoice> findAll() {
-        return entityManager.createQuery("SELECT i FROM Invoice i").getResultList();
+        return entityManager.createQuery("SELECT i FROM Invoice i", Invoice.class).getResultList();
     }
 
     public void removeById(UUID id) {

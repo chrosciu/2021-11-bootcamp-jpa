@@ -19,6 +19,6 @@ public class OfferRepository {
     }
 
     public List<Offer> findAll() {
-        return entityManager.createQuery("SELECT i FROM Offer i").getResultList();
+        return entityManager.createQuery("SELECT i FROM Offer i", Offer.class).getResultList();
     }
 }

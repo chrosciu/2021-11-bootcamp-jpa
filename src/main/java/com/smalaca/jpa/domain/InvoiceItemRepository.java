@@ -19,6 +19,6 @@ public class InvoiceItemRepository {
     }
 
     public List<InvoiceItem> findAll() {
-        return entityManager.createQuery("SELECT i FROM InvoiceItem i").getResultList();
+        return entityManager.createQuery("SELECT i FROM InvoiceItem i", InvoiceItem.class).getResultList();
     }
 }

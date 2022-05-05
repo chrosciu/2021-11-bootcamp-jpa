@@ -17,6 +17,6 @@ public class BasketRepository {
     }
 
     public List<Basket> findAll() {
-        return entityManager.createQuery("SELECT i FROM Basket i").getResultList();
+        return entityManager.createQuery("SELECT i FROM Basket i", Basket.class).getResultList();
     }
 }

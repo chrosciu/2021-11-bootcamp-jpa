@@ -30,7 +30,7 @@ public class ProductRepository {
     }
 
     public List<Product> findAll() {
-        return entityManager.createQuery("SELECT p FROM Product p").getResultList();
+        return entityManager.createQuery("SELECT p FROM Product p", Product.class).getResultList();
     }
 
     public void update(Product product) {
