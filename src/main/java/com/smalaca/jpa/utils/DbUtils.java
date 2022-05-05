@@ -28,13 +28,29 @@ public final class DbUtils {
         EntityManager context = null;
         try {
             context = entityManagerFactory.createEntityManager();
+            logOpenContext();
             action.accept(context);
         } finally {
             if (context != null) {
+                logCloseContext();
                 context.close();
             }
         }
     }
+
+    private static void logOpenContext() {
+        System.out.println("------------------------------");
+        System.out.println("-------- OPEN CONTEXT --------");
+        System.out.println("------------------------------");
+    }
+
+    private static void logCloseContext() {
+        System.out.println("-------------------------------");
+        System.out.println("-------- CLOSE CONTEXT --------");
+        System.out.println("-------------------------------");
+    }
+
+
 
 }
 
