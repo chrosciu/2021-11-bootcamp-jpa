@@ -18,6 +18,7 @@
         <lombok.version>1.18.22</lombok.version>
         <postgresql.version>42.3.3</postgresql.version>
         <logback.version>1.2.9</logback.version>
+        <ehcache.version>3.9.9</ehcache.version>
     </properties>
 
     <dependencies>
@@ -30,6 +31,17 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
         </dependency>
 
         <dependency>
