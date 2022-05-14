@@ -202,5 +202,35 @@ public class JpaQueries {
         }
     }
 
+    private static class DoubleInvoiceItemsAmount {
+        public static void main(String[] args) {
+            DbUtils.runInEntityManagerFactory(entityManagerFactory -> {
+                DbUtils.runInEntityManagerContext(entityManagerFactory, DbPopulator::populateDb);
+                DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
+                    var queryString = "update InvoiceItem ii set ii.amount = ii.amount * 2 where ii.amount > 1";
+                    var query = context.createQuery(queryString);
+                    context.getTransaction().begin();
+                    var result= query.executeUpdate();
+                    context.getTransaction().commit();
+                    System.out.println("Updated rows: " + result);
+                });
+            });
+        }
+    }
+
+    private static class AllInvoicesWithFetchJoin {
+        public static void main(String[] args) {
+            DbUtils.runInEntityManagerFactory(entityManagerFactory -> {
+                DbUtils.runInEntityManagerContext(entityManagerFactory, DbPopulator::populateDb);
+                DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
+                    var queryString = "from Invoice i join fetch i.buyer b join fetch i.seller s join fetch i.offer o join fetch o.offerItems oi";
+                    var query = context.createQuery(queryString, Invoice.class);
+                    var result = query.getResultList();
+                    System.out.println("All invoices: " + result);
+                });
+            });
+        }
+    }
+
 
 }
