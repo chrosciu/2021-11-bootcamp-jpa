@@ -1,5 +1,6 @@
 package com.smalaca.jpa.domain;
 
+import com.smalaca.jpa.dto.InvoiceDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -40,6 +41,29 @@ import java.util.UUID;
                 )
         }
 )
+@SqlResultSetMapping(
+        name = "invoiceDto",
+        classes = {
+                @ConstructorResult(
+                        targetClass = com.smalaca.jpa.dto.InvoiceDto.class,
+                        columns = {
+                                @ColumnResult(name = "id"),
+                                @ColumnResult(name = "offerNumber"),
+                                @ColumnResult(name = "offerItemAmount")
+                        }
+                )
+        }
+)
+@NamedNativeQuery(name = "Invoice.findByOfferNumberOrStatus",
+        query = "SELECT " +
+                "i.id, o.OFFERNUMBER, count(oi.ID) as offerItemAmount " +
+                "from invoice i " +
+                "JOIN offer o ON i.offer_id = o.id " +
+                "LEFT JOIN OFFER_OFFERITEM o_oi ON o.id = o_oi.OFFER_ID " +
+                "LEFT JOIN OFFERITEM oi ON o_oi.OFFERITEMS_ID = oi.ID " +
+                "WHERE o.OFFERNUMBER like :offerNumber OR i.STATUS = :status GROUP BY i.id, o.OFFERNUMBER",
+        resultClass = InvoiceDto.class,
+        resultSetMapping = "invoiceDto")
 public class Invoice {
     @Id
     @GeneratedValue

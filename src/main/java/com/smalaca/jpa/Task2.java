@@ -19,6 +19,9 @@ public class Task2 {
     }
 
     private static List<InvoiceDto> findInvoicesWithSQL(EntityManager context, String offerNumberPattern, InvoiceStatus status) {
-        return null; //TODO
+        var query = context.createNamedQuery("Invoice.findByOfferNumberOrStatus", InvoiceDto.class);
+        query.setParameter("offerNumber", "%" + offerNumberPattern + "%");
+        query.setParameter("status", status.name());
+        return query.getResultList();
     }
 }
