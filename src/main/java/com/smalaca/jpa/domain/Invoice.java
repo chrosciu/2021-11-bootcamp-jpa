@@ -3,7 +3,9 @@ package com.smalaca.jpa.domain;
 import com.smalaca.jpa.dto.InvoiceDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -64,6 +66,8 @@ import java.util.UUID;
                 "WHERE o.OFFERNUMBER like :offerNumber OR i.STATUS = :status GROUP BY i.id, o.OFFERNUMBER",
         resultClass = InvoiceDto.class,
         resultSetMapping = "invoiceDto")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Invoice {
     @Id
     @GeneratedValue
