@@ -19,7 +19,17 @@ public class Task1 {
     }
 
     private static List<InvoiceDto> findInvoicesWithJPQL(EntityManager context, String offerNumberPattern, InvoiceStatus status) {
-        return null; //TODO
+        var queryString =
+                "select new com.smalaca.jpa.dto.InvoiceDto(i.id, o.offerNumber, count(oi) ) " +
+                        "from Invoice i " +
+                        "join i.offer o left join o.offerItems oi " +
+                        "where o.offerNumber like :pattern or i.status = :status " +
+                        "group by i.id";
+
+        var query= context.createQuery(queryString, InvoiceDto.class);
+        query.setParameter("pattern","%" + offerNumberPattern + "%");
+        query.setParameter("status", status);
+        return query.getResultList();
     }
 }
 
