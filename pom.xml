@@ -16,6 +16,7 @@
         <hibernate-core.version>5.6.1.Final</hibernate-core.version>
         <h2.version>1.4.200</h2.version>
         <lombok.version>1.18.30</lombok.version>
+        <postgresql.version>42.3.3</postgresql.version>
     </properties>
 
     <dependencies>
@@ -26,9 +27,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <dependency>
