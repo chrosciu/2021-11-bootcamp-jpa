@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,9 +14,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -22,8 +26,24 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @NamedQuery(name = Invoice.FIND_FOR_BUYER, query = "select i from Invoice i where i.buyer = :buyer")
+@NamedNativeQuery(name = Invoice.FIND_FOR_SELLER_LOGIN,
+        query = "SELECT * from invoice i JOIN seller s ON i.seller_id = s.id WHERE s.login = :login",
+        resultClass = Invoice.class)
+@SqlResultSetMapping(
+        name = "idAndStatus",
+        classes = {
+                @ConstructorResult(
+                        targetClass = com.smalaca.jpa.dto.IdAndStatus.class,
+                        columns = {
+                                @ColumnResult(name = "id"),
+                                @ColumnResult(name = "status")
+                        }
+                )
+        }
+)
 public class Invoice {
     public static final String FIND_FOR_BUYER = "Invoice.findForBuyer";
+    public static final String FIND_FOR_SELLER_LOGIN = "Invoice.findForSellerLogin";
 
     @Id
     @GeneratedValue
