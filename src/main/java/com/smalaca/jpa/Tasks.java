@@ -13,9 +13,7 @@ import java.util.List;
 public class Tasks {
     @Value
     static class SearchParams {
-        @NonNull
         InvoiceStatus invoiceStatus;
-        @NonNull
         String sellerLogin;
     }
 
