@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.HashSet;
@@ -20,7 +21,10 @@ import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
+@NamedQuery(name = Invoice.FIND_FOR_BUYER, query = "select i from Invoice i where i.buyer = :buyer")
 public class Invoice {
+    public static final String FIND_FOR_BUYER = "Invoice.findForBuyer";
+
     @Id
     @GeneratedValue
     private UUID id;

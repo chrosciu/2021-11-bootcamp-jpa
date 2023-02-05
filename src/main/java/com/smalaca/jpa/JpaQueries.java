@@ -1,5 +1,6 @@
 package com.smalaca.jpa;
 
+import com.smalaca.jpa.domain.Buyer;
 import com.smalaca.jpa.domain.Invoice;
 import com.smalaca.jpa.domain.InvoiceStatus;
 import com.smalaca.jpa.dto.BuyerAndCount;
@@ -136,16 +137,32 @@ public class JpaQueries {
         }
     }
 
-    private static class AllInvoicesFromCarolBuyer {
+    private static class AllInvoicesFromBuyer {
         public static void main(String[] args) {
             DbUtils.runInEntityManagerFactory(entityManagerFactory -> {
                 DbUtils.runInEntityManagerContext(entityManagerFactory, DbPopulator::populateDb);
+                Buyer buyer = DbPopulator.getCarol();
                 DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
                     var queryString = "select i from Invoice i where i.buyer = :buyer";
                     var query = context.createQuery(queryString, Invoice.class);
-                    query.setParameter("buyer", DbPopulator.getCarol());
+                    query.setParameter("buyer", buyer);
                     var result = query.getResultList();
-                    System.out.println("All invoices with status CREATED: " + result);
+                    System.out.println("All invoices for buyer: " + result);
+                });
+            });
+        }
+    }
+
+    private static class AllInvoicesFromBuyerWithNamedQuery {
+        public static void main(String[] args) {
+            DbUtils.runInEntityManagerFactory(entityManagerFactory -> {
+                DbUtils.runInEntityManagerContext(entityManagerFactory, DbPopulator::populateDb);
+                Buyer buyer = DbPopulator.getCarol();
+                DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
+                    var query = context.createNamedQuery(Invoice.FIND_FOR_BUYER, Invoice.class);
+                    query.setParameter("buyer", buyer);
+                    var result = query.getResultList();
+                    System.out.println("All invoices for buyer: " + result);
                 });
             });
         }
@@ -224,6 +241,22 @@ public class JpaQueries {
                     var query = context.createQuery(queryString, BuyerAndCount.class);
                     var result = query.getResultList();
                     System.out.println("All invoices count for buyer: " + result);
+                });
+            });
+        }
+    }
+
+    private static class DoubleInvoiceItemsAmount {
+        public static void main(String[] args) {
+            DbUtils.runInEntityManagerFactory(entityManagerFactory -> {
+                DbUtils.runInEntityManagerContext(entityManagerFactory, DbPopulator::populateDb);
+                DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
+                    var queryString = "update InvoiceItem i set i.amount = i.amount * 2 where i.amount > 1";
+                    var query = context.createQuery(queryString);
+                    context.getTransaction().begin();
+                    var result = query.executeUpdate();
+                    context.getTransaction().commit();
+                    System.out.println("Updated rows: " + result);
                 });
             });
         }
