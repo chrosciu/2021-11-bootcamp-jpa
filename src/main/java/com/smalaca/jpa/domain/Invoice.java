@@ -1,6 +1,7 @@
 package com.smalaca.jpa.domain;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -40,6 +41,7 @@ public class Invoice {
 
     @ManyToOne
     @JoinColumn(name = "buyer_id", nullable = false)
+    @Getter
     private Buyer buyer;
 
     private Invoice(Buyer buyer, Seller seller, InvoiceStatus invoiceStatus) {

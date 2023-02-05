@@ -32,6 +32,8 @@ import java.util.UUID;
 public final class DbPopulator {
     @Getter
     private static UUID invoiceId;
+    @Getter
+    private static Buyer carol;
 
     public static void populateDb(EntityManager context) {
         ProductRepository productRepository = new ProductRepository(context);
@@ -57,6 +59,7 @@ public final class DbPopulator {
         buyerRepository.save(peterParker);
         buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
         buyerRepository.save(carolDanvers);
+        carol = carolDanvers;
 
         Seller blackWidow = new Seller(new ContactDetails("natasha", "000111222", "romanoff@marvel.com"));
         Seller hawkeye = new Seller(new ContactDetails("hawk", "123123123", "eye@marvel.com"));

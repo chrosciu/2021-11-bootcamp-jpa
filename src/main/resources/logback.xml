@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.hibernate.type" level="TRACE"/>
+<!--    <logger name="org.hibernate.type" level="TRACE"/>-->
     <logger name="org.hibernate.cache" level="DEBUG"/>
     <logger name="org.hibernate.stat" level="DEBUG"/>
 
