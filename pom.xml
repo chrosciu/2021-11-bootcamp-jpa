@@ -17,6 +17,7 @@
         <h2.version>1.4.200</h2.version>
         <lombok.version>1.18.22</lombok.version>
         <postgresql.version>42.3.3</postgresql.version>
+        <logback.version>1.2.9</logback.version>
     </properties>
 
     <dependencies>
@@ -36,6 +37,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
     </dependencies>
 </project>
