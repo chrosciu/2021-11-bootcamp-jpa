@@ -29,10 +29,10 @@ public class NativeQueries {
             DbUtils.runInEntityManagerFactory(entityManagerFactory -> {
                 DbUtils.runInEntityManagerContext(entityManagerFactory, DbPopulator::populateDb);
                 DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
-                    var query = context.createNativeQuery("select id, status from invoice");
+                    var query = context.createNativeQuery("select cast(id as varchar), status from invoice");
                     var result = query.getResultList();
                     var resultTransformed = result.stream()
-                            .map((Function<Object[], IdAndStatus>) row -> new IdAndStatus((byte[])(row[0]), (String)(row[1])))
+                            .map((Function<Object[], IdAndStatus>) row -> new IdAndStatus((String) (row[0]), (String)(row[1])))
                             .collect(Collectors.toList());
                     System.out.println("All invoices id and statuses: " + resultTransformed);
                 });
@@ -46,7 +46,7 @@ public class NativeQueries {
             DbUtils.runInEntityManagerFactory(entityManagerFactory -> {
                 DbUtils.runInEntityManagerContext(entityManagerFactory, DbPopulator::populateDb);
                 DbUtils.runInEntityManagerContext(entityManagerFactory, context -> {
-                    var query = context.createNativeQuery("select id, status from invoice", "idAndStatus");
+                    var query = context.createNativeQuery("select cast(id as varchar), status from invoice", "idAndStatus");
                     var result = query.getResultList();
                     System.out.println("All invoices id and statuses with mapping: " + result);
                 });

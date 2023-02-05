@@ -3,7 +3,6 @@ package com.smalaca.jpa.dto;
 import com.smalaca.jpa.domain.InvoiceStatus;
 import lombok.Value;
 
-import java.nio.ByteBuffer;
 import java.util.UUID;
 
 @Value
@@ -16,12 +15,7 @@ public class IdAndStatus {
         this.status = status;
     }
 
-    public IdAndStatus(byte[] bytes, String statusAsString) {
-        this(idFromBytes(bytes), InvoiceStatus.valueOf(statusAsString));
-    }
-
-    private static UUID idFromBytes(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    public IdAndStatus(String uuidAsString, String statusAsString) {
+        this(UUID.fromString(uuidAsString), InvoiceStatus.valueOf(statusAsString));
     }
 }
