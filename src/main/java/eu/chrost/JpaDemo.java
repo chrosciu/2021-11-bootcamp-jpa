@@ -3,6 +3,7 @@ package eu.chrost;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -35,20 +36,19 @@ public class JpaDemo {
             buyerRepository.save(new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com")));
 
             BasketRepository basketRepository = new BasketRepository(entityManager);
-            Basket basket1 = new Basket();
+            Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));
             basket1.addProducts(UUID.randomUUID(), 13);
             basket1.addProducts(UUID.randomUUID(), 42);
             basket1.addProducts(UUID.randomUUID(), 1);
             basket1.addProducts(toModifyId.get(), 1);
             basketRepository.save(basket1);
-            basketRepository.save(new Basket());
-            Basket basket2 = new Basket();
+            basketRepository.save(new Basket(new BasketIdentifier("hawkeye", 42, LocalDate.of(2021, 12, 13))));
+            Basket basket2 = new Basket(new BasketIdentifier("vision", 7, LocalDate.of(2021, 10, 10)));
             basket2.addProducts(UUID.randomUUID(), 1);
             basket2.addProducts(UUID.randomUUID(), 2);
             basket2.addProducts(UUID.randomUUID(), 3);
             basket2.addProducts(toModifyId.get(), 1);
             basketRepository.save(basket2);
-
         });
 
         runWithEntityManager(entityManagerFactory, entityManager -> {
