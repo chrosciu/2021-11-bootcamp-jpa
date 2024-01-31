@@ -33,6 +33,22 @@ public class JpaDemo {
             buyerRepository.save(new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com")));
             buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
             buyerRepository.save(new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com")));
+
+            BasketRepository basketRepository = new BasketRepository(entityManager);
+            Basket basket1 = new Basket();
+            basket1.addProducts(UUID.randomUUID(), 13);
+            basket1.addProducts(UUID.randomUUID(), 42);
+            basket1.addProducts(UUID.randomUUID(), 1);
+            basket1.addProducts(toModifyId.get(), 1);
+            basketRepository.save(basket1);
+            basketRepository.save(new Basket());
+            Basket basket2 = new Basket();
+            basket2.addProducts(UUID.randomUUID(), 1);
+            basket2.addProducts(UUID.randomUUID(), 2);
+            basket2.addProducts(UUID.randomUUID(), 3);
+            basket2.addProducts(toModifyId.get(), 1);
+            basketRepository.save(basket2);
+
         });
 
         runWithEntityManager(entityManagerFactory, entityManager -> {
