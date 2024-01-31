@@ -23,4 +23,11 @@ public class InvoiceRepository {
                 .createQuery("FROM Invoice", Invoice.class)
                 .getResultList();
     }
+
+    public void removeById(UUID id) {
+        Invoice found = entityManager.find(Invoice.class, id);
+        entityManager.getTransaction().begin();
+        entityManager.remove(found);
+        entityManager.getTransaction().commit();
+    }
 }

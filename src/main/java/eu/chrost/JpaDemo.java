@@ -13,8 +13,10 @@ public class JpaDemo {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ToDo");
         AtomicReference<UUID> toRemoveId = new AtomicReference<>();
         AtomicReference<UUID> toModifyId = new AtomicReference<>();
+        AtomicReference<UUID> toRemoveInvoiceId = new AtomicReference<>();
+        AtomicReference<UUID> blackWidowId = new AtomicReference<>();
 
-        runWithEntityManager(entityManagerFactory, entityManager -> {
+                runWithEntityManager(entityManagerFactory, entityManager -> {
             ProductRepository productRepository = new ProductRepository(entityManager);
             productRepository.save(new Product("Water", "The best thing to drink"));
             toRemoveId.set(productRepository.save(new Product("Bread", "Something to start with")));
@@ -46,7 +48,7 @@ public class JpaDemo {
             Seller blackWidow = new Seller(new ContactDetails("natasha", "000111222", "romanoff@marvel.com"));
             Seller hawkeye = new Seller(new ContactDetails("hawk", "123123123", "eye@marvel.com"));
             SellerRepository sellerRepository = new SellerRepository(entityManager);
-            sellerRepository.save(blackWidow);
+            blackWidowId.set(sellerRepository.save(blackWidow));
             sellerRepository.save(hawkeye);
 
             InvoiceRepository invoiceRepository = new InvoiceRepository(entityManager);
@@ -56,7 +58,7 @@ public class JpaDemo {
 
             Invoice invoice = Invoice.created(carolDanvers, blackWidow);
             invoice.add(offer);
-            invoiceRepository.save(invoice);
+            toRemoveInvoiceId.set(invoiceRepository.save(invoice));
 
             BasketRepository basketRepository = new BasketRepository(entityManager);
             Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));
@@ -76,8 +78,12 @@ public class JpaDemo {
 
         runWithEntityManager(entityManagerFactory, entityManager -> {
             ProductRepository productRepository = new ProductRepository(entityManager);
+            InvoiceRepository invoiceRepository = new InvoiceRepository(entityManager);
+            SellerRepository sellerRepository = new SellerRepository(entityManager);
 
             productRepository.removeById(toRemoveId.get());
+            invoiceRepository.removeById(toRemoveInvoiceId.get());
+            //sellerRepository.removeById(blackWidowId.get()); //does not work due to FK constraint
         });
 
         runWithEntityManager(entityManagerFactory, entityManager -> {
