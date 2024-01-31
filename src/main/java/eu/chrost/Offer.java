@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class Offer {
     private String offerNumber;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "offer_id")
     private List<OfferItem> offerItems = new ArrayList<>();
 
     public Offer(String offerNumber) {
