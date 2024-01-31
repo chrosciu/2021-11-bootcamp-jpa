@@ -5,10 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -19,10 +23,15 @@ public class Product {
     @Id
     @GeneratedValue
     private UUID id;
-    @Column
+
     private String name;
-    @Column
+
     private String description;
+
+    @ElementCollection
+    @CollectionTable(name = "categories") //optional
+    @Column(name = "category") //optional
+    private Set<String> categories = new HashSet<>();
 
     public Product(String name, String description) {
         this.name = name;
@@ -31,5 +40,9 @@ public class Product {
 
     public void changeDescriptionTo(String description) {
         this.description = description;
+    }
+
+    public void addCategory(String category) {
+        categories.add(category);
     }
 }

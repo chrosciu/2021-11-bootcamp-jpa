@@ -19,6 +19,11 @@ public class JpaDemo {
             toRemoveId.set(productRepository.save(new Product("Bread", "Something to start with")));
             toModifyId.set(productRepository.save(new Product("Carrot", "Because they said you will see better")));
 
+            Product productWithCategories = new Product("Box", "Bigger than you expect");
+            productWithCategories.addCategory("boxes");
+            productWithCategories.addCategory("stuff");
+            productRepository.save(productWithCategories);
+
             InvoiceRepository invoiceRepository = new InvoiceRepository(entityManager);
             invoiceRepository.save(Invoice.created());
             invoiceRepository.save(Invoice.created());
