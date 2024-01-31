@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class JpaHelloWorld {
+public class JpaDemo {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ToDo");
         UUID id = UUID.randomUUID();
