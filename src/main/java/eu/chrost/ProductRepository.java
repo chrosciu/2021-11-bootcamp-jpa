@@ -11,10 +11,11 @@ public class ProductRepository {
         this.entityManager = entityManager;
     }
 
-    public void save(Product product) {
+    public UUID save(Product product) {
         entityManager.getTransaction().begin();
         entityManager.persist(product);
         entityManager.getTransaction().commit();
+        return product.getId();
     }
 
     public Product findById(UUID id) {
