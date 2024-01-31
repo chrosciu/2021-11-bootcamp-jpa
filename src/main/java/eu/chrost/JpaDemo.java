@@ -50,6 +50,10 @@ public class JpaDemo {
             buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
             buyerRepository.save(new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com")));
 
+            SellerRepository sellerRepository = new SellerRepository(entityManager);
+            sellerRepository.save(new Seller(new ContactDetails("natasha", "000111222", "romanoff@marvel.com")));
+            sellerRepository.save(new Seller(new ContactDetails("hawk", "123123123", "eye@marvel.com")));
+
             BasketRepository basketRepository = new BasketRepository(entityManager);
             Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));
             basket1.addProducts(UUID.randomUUID(), 13);
@@ -85,12 +89,14 @@ public class JpaDemo {
             ProductRepository productRepository = new ProductRepository(entityManager);
             InvoiceRepository invoiceRepository = new InvoiceRepository(entityManager);
             BuyerRepository buyerRepository = new BuyerRepository(entityManager);
+            SellerRepository sellerRepository = new SellerRepository(entityManager);
             BasketRepository basketRepository = new BasketRepository(entityManager);
             OfferRepository offerRepository = new OfferRepository(entityManager);
 
             productRepository.findAll().forEach(System.out::println);
             invoiceRepository.findAll().forEach(System.out::println);
             buyerRepository.findAll().forEach(System.out::println);
+            sellerRepository.findAll().forEach(System.out::println);
             basketRepository.findAll().forEach(System.out::println);
             offerRepository.findAll().forEach(System.out::println);
         });
