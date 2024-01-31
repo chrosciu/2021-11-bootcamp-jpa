@@ -31,6 +31,13 @@ public class JpaDemo {
             invoiceRepository.save(Invoice.created());
 
             OfferRepository offerRepository = new OfferRepository(entityManager);
+            Offer offerWithItems = new Offer("ABCDEF");
+            offerWithItems.add(new OfferItem(UUID.randomUUID(), 13));
+            offerWithItems.add(new OfferItem(UUID.randomUUID(), 42));
+            offerWithItems.add(new OfferItem(UUID.randomUUID(), 7));
+            offerWithItems.add(new OfferItem(UUID.randomUUID(), 100));
+            offerRepository.save(offerWithItems);
+
             Offer offer = new Offer("QWERTY");
             offerRepository.save(offer);
 
