@@ -25,11 +25,6 @@ public class JpaDemo {
             productWithCategories.addCategory("stuff");
             productRepository.save(productWithCategories);
 
-            InvoiceRepository invoiceRepository = new InvoiceRepository(entityManager);
-            invoiceRepository.save(Invoice.created());
-            invoiceRepository.save(Invoice.created());
-            invoiceRepository.save(Invoice.created());
-
             OfferRepository offerRepository = new OfferRepository(entityManager);
             Offer offerWithItems = new Offer("ABCDEF");
             offerWithItems.add(new OfferItem(UUID.randomUUID(), 13));
@@ -41,18 +36,27 @@ public class JpaDemo {
             Offer offer = new Offer("QWERTY");
             offerRepository.save(offer);
 
-            Invoice invoice = Invoice.created();
+            Buyer carolDanvers = new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com"));
+            Buyer peterParker = new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com"));
+            BuyerRepository buyerRepository = new BuyerRepository(entityManager);
+            buyerRepository.save(peterParker);
+            buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
+            buyerRepository.save(carolDanvers);
+
+            Seller blackWidow = new Seller(new ContactDetails("natasha", "000111222", "romanoff@marvel.com"));
+            Seller hawkeye = new Seller(new ContactDetails("hawk", "123123123", "eye@marvel.com"));
+            SellerRepository sellerRepository = new SellerRepository(entityManager);
+            sellerRepository.save(blackWidow);
+            sellerRepository.save(hawkeye);
+
+            InvoiceRepository invoiceRepository = new InvoiceRepository(entityManager);
+            invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
+            invoiceRepository.save(Invoice.created(carolDanvers, blackWidow));
+            invoiceRepository.save(Invoice.created(peterParker, blackWidow));
+
+            Invoice invoice = Invoice.created(carolDanvers, blackWidow);
             invoice.add(offer);
             invoiceRepository.save(invoice);
-
-            BuyerRepository buyerRepository = new BuyerRepository(entityManager);
-            buyerRepository.save(new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com")));
-            buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
-            buyerRepository.save(new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com")));
-
-            SellerRepository sellerRepository = new SellerRepository(entityManager);
-            sellerRepository.save(new Seller(new ContactDetails("natasha", "000111222", "romanoff@marvel.com")));
-            sellerRepository.save(new Seller(new ContactDetails("hawk", "123123123", "eye@marvel.com")));
 
             BasketRepository basketRepository = new BasketRepository(entityManager);
             Basket basket1 = new Basket(new BasketIdentifier("smalaca", 13, LocalDate.of(2021, 1, 20)));

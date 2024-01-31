@@ -11,9 +11,12 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
-@ToString
+@ToString(exclude = "invoices")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Seller {
@@ -27,6 +30,9 @@ public class Seller {
             @AttributeOverride(name = "mail", column = @Column(name = "seller_mail")),
     })
     private ContactDetails contactDetails;
+
+    @OneToMany(mappedBy = "seller")
+    private Set<Invoice> invoices = new HashSet<>();
 
     public Seller(ContactDetails contactDetails) {
         this.contactDetails = contactDetails;
