@@ -30,6 +30,14 @@ public class JpaDemo {
             invoiceRepository.save(Invoice.created());
             invoiceRepository.save(Invoice.created());
 
+            OfferRepository offerRepository = new OfferRepository(entityManager);
+            Offer offer = new Offer("QWERTY");
+            offerRepository.save(offer);
+
+            Invoice invoice = Invoice.created();
+            invoice.add(offer);
+            invoiceRepository.save(invoice);
+
             BuyerRepository buyerRepository = new BuyerRepository(entityManager);
             buyerRepository.save(new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com")));
             buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
@@ -70,10 +78,14 @@ public class JpaDemo {
             ProductRepository productRepository = new ProductRepository(entityManager);
             InvoiceRepository invoiceRepository = new InvoiceRepository(entityManager);
             BuyerRepository buyerRepository = new BuyerRepository(entityManager);
+            BasketRepository basketRepository = new BasketRepository(entityManager);
+            OfferRepository offerRepository = new OfferRepository(entityManager);
 
             productRepository.findAll().forEach(System.out::println);
             invoiceRepository.findAll().forEach(System.out::println);
             buyerRepository.findAll().forEach(System.out::println);
+            basketRepository.findAll().forEach(System.out::println);
+            offerRepository.findAll().forEach(System.out::println);
         });
     }
 
