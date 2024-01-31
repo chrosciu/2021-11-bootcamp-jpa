@@ -1,4 +1,4 @@
-package com.smalaca.jpa;
+package eu.chrost;
 
 public class JpaHelloWorld {
     public static void main(String[] args) {
