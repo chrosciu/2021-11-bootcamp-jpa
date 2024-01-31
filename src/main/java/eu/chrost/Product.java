@@ -1,4 +1,8 @@
-package com.smalaca.jpa.domain;
+package eu.chrost;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,6 +10,8 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Product {
     @Id
     private UUID id;
@@ -13,10 +19,4 @@ public class Product {
     private String name;
     @Column
     private String description;
-
-    public Product(UUID id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
 }
