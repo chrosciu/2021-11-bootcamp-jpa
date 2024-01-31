@@ -23,6 +23,11 @@ public class JpaDemo {
             invoiceRepository.save(Invoice.created());
             invoiceRepository.save(Invoice.created());
             invoiceRepository.save(Invoice.created());
+
+            BuyerRepository buyerRepository = new BuyerRepository(entityManager);
+            buyerRepository.save(new Buyer(new ContactDetails("pparker", "111111111", "peter.parker@marvel.com")));
+            buyerRepository.save(new Buyer(new ContactDetails("srogers", "123456789", "captain.america@marvel.com")));
+            buyerRepository.save(new Buyer(new ContactDetails("carol.d4nv3rs", "987654321", "captain@marvel.com")));
         });
 
         runWithEntityManager(entityManagerFactory, entityManager -> {
@@ -43,9 +48,11 @@ public class JpaDemo {
         runWithEntityManager(entityManagerFactory, entityManager -> {
             ProductRepository productRepository = new ProductRepository(entityManager);
             InvoiceRepository invoiceRepository = new InvoiceRepository(entityManager);
+            BuyerRepository buyerRepository = new BuyerRepository(entityManager);
 
             productRepository.findAll().forEach(System.out::println);
             invoiceRepository.findAll().forEach(System.out::println);
+            buyerRepository.findAll().forEach(System.out::println);
         });
     }
 
