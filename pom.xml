@@ -14,7 +14,7 @@
 
         <hibernate-core.version>5.6.1.Final</hibernate-core.version>
         <h2.version>1.4.200</h2.version>
-        <lombok.version>1.18.22</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
     <dependencies>
