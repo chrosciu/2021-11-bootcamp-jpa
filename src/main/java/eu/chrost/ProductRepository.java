@@ -33,4 +33,10 @@ public class ProductRepository {
                 .createQuery("FROM Product", Product.class)
                 .getResultList();
     }
+
+    public void update(Product product) {
+        entityManager.getTransaction().begin();
+        entityManager.merge(product);
+        entityManager.getTransaction().commit();
+    }
 }

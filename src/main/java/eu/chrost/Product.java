@@ -21,4 +21,8 @@ public class Product {
     private String name;
     @Column
     private String description;
+
+    public void changeDescriptionTo(String description) {
+        this.description = description;
+    }
 }

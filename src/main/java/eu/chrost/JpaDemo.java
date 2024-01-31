@@ -11,18 +11,28 @@ public class JpaDemo {
     public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ToDo");
         UUID toRemoveId = UUID.randomUUID();
+        UUID toModifyId = UUID.randomUUID();
 
         runWithEntityManager(entityManagerFactory, entityManager -> {
             ProductRepository productRepository = new ProductRepository(entityManager);
             productRepository.save(new Product(UUID.randomUUID(), "Water", "The best thing to drink"));
             productRepository.save(new Product(toRemoveId, "Bread", "Something to start with"));
-            productRepository.save(new Product(UUID.randomUUID(), "Carrot", "Because they said you will see better"));
+            productRepository.save(new Product(toModifyId, "Carrot", "Because they said you will see better"));
         });
 
         runWithEntityManager(entityManagerFactory, entityManager -> {
             ProductRepository productRepository = new ProductRepository(entityManager);
 
             productRepository.removeById(toRemoveId);
+        });
+
+        runWithEntityManager(entityManagerFactory, entityManager -> {
+            ProductRepository productRepository = new ProductRepository(entityManager);
+
+            Product toModify = productRepository.findById(toModifyId);
+
+            toModify.changeDescriptionTo("Just carrot");
+            productRepository.update(toModify);
         });
 
         runWithEntityManager(entityManagerFactory, entityManager -> {
